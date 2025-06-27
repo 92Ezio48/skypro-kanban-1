@@ -1,4 +1,4 @@
-import CalendarComponent from "./calendar-component";
+import CalendarComponent from "./calendar";
 function PopnewcardComponent() {
   return (
     <div className="pop-new-card" id="popNewCard">
