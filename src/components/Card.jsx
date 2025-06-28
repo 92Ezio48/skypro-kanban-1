@@ -1,10 +1,35 @@
-function CardComponent() {
+function CardComponent({ theme, title, date, status }) {
+  const themeColors = {
+    Research: "rgb(180, 253, 209)",
+    Copywriting: "rgb(233, 212, 255)",
+    "Web Design": "rgb(255, 228, 194)",
+  };
+  const themeTextColors = {
+    Research: "rgb(6, 177, 110)",
+    Copywriting: "rgb(154, 72, 241)",
+    "Web Design": "rgb(255, 109, 0)",
+  };
+  const bgColor = themeColors[theme] || "#e0e0e0";
+  const textColor = themeTextColors[theme] || "#000";
+  const isDone = status === "Готово"; // или 'Готово'
   return (
     <div className="cards__item">
       <div className="cards__card card">
         <div className="card__group">
-          <div className="card__theme _green">
-            <p className="_green">Research</p>
+          <div
+            className="card__theme"
+            style={{
+              backgroundColor: bgColor,
+              color: textColor, // 👈 вот тут!
+            }}
+          >
+            <p
+              style={{
+                color: "inherit",
+              }}
+            >
+              {theme}
+            </p>
           </div>
           <a href="#popBrowse" target="_self">
             <div className="card__btn">
@@ -16,38 +41,15 @@ function CardComponent() {
         </div>
         <div className="card__content">
           <a href="" target="_blank">
-            <h3 className="card__title">Название задачи</h3>
+            <h3
+              className="card__title"
+              style={isDone ? { textDecoration: "line-through" } : {}}
+            >
+              {title}
+            </h3>
           </a>
           <div className="card__date">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="13"
-              height="13"
-              viewBox="0 0 13 13"
-              fill="none"
-            >
-              <g clipPath="url(#clip0_1_415)">
-                <path
-                  d="M10.5625 2.03125H2.4375C1.7644 2.03125 1.21875 2.5769 1.21875 3.25V10.5625C1.21875 11.2356 1.7644 11.7812 2.4375 11.7812H10.5625C11.2356 11.7812 11.7812 11.2356 11.7812 10.5625V3.25C11.7812 2.5769 11.2356 2.03125 10.5625 2.03125Z"
-                  stroke="#94A6BE"
-                  strokeWidth="0.8"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M11.7812 4.0625H1.21875M3.25 1.21875V2.03125V1.21875ZM9.75 1.21875V2.03125V1.21875Z"
-                  stroke="#94A6BE"
-                  strokeWidth="0.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </g>
-              <defs>
-                <clipPath id="clip0_1_415">
-                  <rect width="13" height="13" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
-            <p>30.10.23</p>
+            <p>{date}</p>
           </div>
         </div>
       </div>
