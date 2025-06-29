@@ -1,3 +1,16 @@
+import {
+  CardItem,
+  CardInner,
+  CardGroup,
+  CardTheme,
+  CardThemeP,
+  CardBtn,
+  CardBtnDot,
+  CardTitle,
+  CardContent,
+  CardDate,
+} from "./Card-styled";
+
 function CardComponent({ theme, title, date, status }) {
   const themeColors = {
     Research: "rgb(180, 253, 209)",
@@ -9,51 +22,36 @@ function CardComponent({ theme, title, date, status }) {
     Copywriting: "rgb(154, 72, 241)",
     "Web Design": "rgb(255, 109, 0)",
   };
-  const bgColor = themeColors[theme] || "#e0e0e0";
+  const $bgColor = themeColors[theme] || "#e0e0e0";
   const textColor = themeTextColors[theme] || "#000";
-  const isDone = status === "Готово"; // или 'Готово'
+  const $isDone = status === "Готово";
+
   return (
-    <div className="cards__item">
-      <div className="cards__card card">
-        <div className="card__group">
-          <div
-            className="card__theme"
-            style={{
-              backgroundColor: bgColor,
-              color: textColor, // 👈 вот тут!
-            }}
-          >
-            <p
-              style={{
-                color: "inherit",
-              }}
-            >
-              {theme}
-            </p>
-          </div>
+    <CardItem>
+      <CardInner>
+        <CardGroup>
+          <CardTheme $bg={$bgColor} color={textColor}>
+            <CardThemeP>{theme}</CardThemeP>
+          </CardTheme>
           <a href="#popBrowse" target="_self">
-            <div className="card__btn">
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
+            <CardBtn>
+              <CardBtnDot />
+              <CardBtnDot />
+              <CardBtnDot />
+            </CardBtn>
           </a>
-        </div>
-        <div className="card__content">
+        </CardGroup>
+        <CardContent>
           <a href="" target="_blank">
-            <h3
-              className="card__title"
-              style={isDone ? { textDecoration: "line-through" } : {}}
-            >
-              {title}
-            </h3>
+            <CardTitle $isDone={$isDone}>{title}</CardTitle>
           </a>
-          <div className="card__date">
+          <CardDate>
             <p>{date}</p>
-          </div>
-        </div>
-      </div>
-    </div>
+          </CardDate>
+        </CardContent>
+      </CardInner>
+    </CardItem>
   );
 }
+
 export default CardComponent;
