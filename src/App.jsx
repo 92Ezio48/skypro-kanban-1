@@ -3,7 +3,7 @@ import HeaderComponent from "./components/header";
 import PopbrowseComponent from "./components/pop-browse";
 import PopnewcardComponent from "./components/pop-new-card";
 import ColumnComponent from "./components/Column";
-
+import { GlobalStyle } from "./GlobalStyles.js";
 import PopexitComponent from "./components/Pop-exit";
 import { cardList } from "./data.js";
 function App() {
@@ -24,6 +24,7 @@ function App() {
 
   return (
     <div className="wrapper">
+      <GlobalStyle />
       {/* pop-up start*/}
       <PopexitComponent />
       <PopnewcardComponent />
