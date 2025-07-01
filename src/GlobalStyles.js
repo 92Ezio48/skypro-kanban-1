@@ -119,7 +119,7 @@ body {
 }
 
 .pop-exit {
-  display: none;
+
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -198,7 +198,7 @@ body {
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #ffffff;
+
 }
 .pop-exit__exit-no a {
   width: 100%;
@@ -470,7 +470,6 @@ body {
 }
 
 .pop-browse {
-  display: none;
   width: 100%;
   height: 100%;
   min-width: 375px;
@@ -506,6 +505,7 @@ body {
   display: block;
   text-align: left;
 }
+
 .pop-browse__content .categories__theme {
   opacity: 1;
 }

@@ -10,8 +10,7 @@ import {
   CardContent,
   CardDate,
 } from "./Card-styled";
-
-function CardComponent({ theme, title, date, status }) {
+function CardComponent({ theme, title, date, status, onBrowseClick }) {
   const themeColors = {
     Research: "rgb(180, 253, 209)",
     Copywriting: "rgb(233, 212, 255)",
@@ -33,18 +32,15 @@ function CardComponent({ theme, title, date, status }) {
           <CardTheme $bg={$bgColor} color={textColor}>
             <CardThemeP>{theme}</CardThemeP>
           </CardTheme>
-          <a href="#popBrowse" target="_self">
-            <CardBtn>
-              <CardBtnDot />
-              <CardBtnDot />
-              <CardBtnDot />
-            </CardBtn>
-          </a>
+          <CardBtn onClick={onBrowseClick}>
+            {/* Лучше убрать <a href="#popBrowse">! */}
+            <CardBtnDot />
+            <CardBtnDot />
+            <CardBtnDot />
+          </CardBtn>
         </CardGroup>
         <CardContent>
-          <a href="" target="_blank">
-            <CardTitle $isDone={$isDone}>{title}</CardTitle>
-          </a>
+          <CardTitle $isDone={$isDone}>{title}</CardTitle>
           <CardDate>
             <p>{date}</p>
           </CardDate>
@@ -53,5 +49,4 @@ function CardComponent({ theme, title, date, status }) {
     </CardItem>
   );
 }
-
 export default CardComponent;
