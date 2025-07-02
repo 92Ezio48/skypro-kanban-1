@@ -17,44 +17,59 @@ import {
   ToggleSwitchSlider,
 } from "./Header-styled";
 
-function HeaderComponent() {
+function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false);
   const user = {
     name: "Ivan Ivanov",
     email: "ivan.ivanov@gmail.com",
   };
-  function handleLogoutClick() {
-    setIsUserPopupOpen(false); // Закрыть попап пользователя!
-    navigate("/exit"); // переходи на страницу выхода
-  }
+
   return (
-    <StyledHeader>
+    <StyledHeader $isDarkTheme={isDarkTheme}>
       <div className="container">
-        <HeaderBlock>
+        <HeaderBlock $isDarkTheme={isDarkTheme}>
           <LogoWrap>
             <a href="/" target="_self">
-              <img src="images/logo.png" alt="logo" />
+              <img
+                src={isDarkTheme ? "images/logo_dark.png" : "images/logo.png"}
+                alt="logo"
+              />
             </a>
           </LogoWrap>
-          <NavWrap>
+          <NavWrap $isDarkTheme={isDarkTheme}>
             <NewTaskButton id="btnMainNew">
               <a href="#popNewCard">Создать новую задачу</a>
             </NewTaskButton>
-            <UserSpan onClick={() => setIsUserPopupOpen((open) => !open)}>
+            <UserSpan
+              $isDarkTheme={isDarkTheme}
+              onClick={() => setIsUserPopupOpen((open) => !open)}
+            >
               {user.name}
             </UserSpan>
-            <UserPopup open={isUserPopupOpen}>
-              <PopupName>{user.name}</PopupName>
+            <UserPopup $isDarkTheme={isDarkTheme} open={isUserPopupOpen}>
+              <PopupName $isDarkTheme={isDarkTheme}>{user.name}</PopupName>
               <PopupMail>{user.email}</PopupMail>
-              <PopupTheme>
+              <PopupTheme $isDarkTheme={isDarkTheme}>
                 <p>Темная тема</p>
                 <ToggleSwitchLabel>
-                  <ToggleSwitchCheckbox className="checkbox" name="checkbox" />
-                  <ToggleSwitchSlider />
+                  <ToggleSwitchCheckbox
+                    className="checkbox"
+                    name="checkbox"
+                    type="checkbox"
+                    checked={isDarkTheme}
+                    onChange={() => setIsDarkTheme((prev) => !prev)}
+                  />
+                  <ToggleSwitchSlider $isDarkTheme={isDarkTheme} />
                 </ToggleSwitchLabel>
               </PopupTheme>
-              <PopupLogoutButton type="button" onClick={handleLogoutClick}>
+              <PopupLogoutButton
+                type="button"
+                onClick={() => {
+                  navigate("/exit-confirm");
+                  setIsUserPopupOpen(false);
+                }}
+              >
                 Выйти
               </PopupLogoutButton>
             </UserPopup>
@@ -64,5 +79,4 @@ function HeaderComponent() {
     </StyledHeader>
   );
 }
-
 export default HeaderComponent;

@@ -3,6 +3,7 @@ export const GlobalStyle = createGlobalStyle`* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 *:before,
@@ -44,13 +45,7 @@ body {
   color: #000000;
 }
 
-.wrapper {
-  max-width: 100%;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
+
 
 .container {
   max-width: 1260px;
@@ -646,11 +641,8 @@ body {
   display: none;
 }
 
-.main {
-  width: 100%;
-  background-color: #eaeef6;
-}
 .main__block {
+  background-color: #eaeef6;
   width: 100%;
   margin: 0 auto;
   padding: 25px 0 49px;
@@ -870,4 +862,27 @@ body {
   color: #000000;
   margin-bottom: 10px;
   margin-right: 120px;
+}
+
+body {
+  --main-bg: #eaeef6;
+  --card-bg:  #eaeef6;
+  --text-color: #222e3a;
+  background: var(--main-bg);
+  color: var(--text-color);
+  transition: background .2s, color .2s;
+}
+
+body.dark-theme, .container.dark-theme  {
+  --main-bg: #222e3a;
+  --card-bg: #1a2230;
+  --text-color: #fff;
+  background: var(--main-bg);
+  color: var(--text-color);
+}
+.container
+.main
+.main__block,
+.main__content {
+  background: var(--card-bg);
 }`;

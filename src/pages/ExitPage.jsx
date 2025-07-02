@@ -9,7 +9,7 @@ function ExitPage() {
     localStorage.removeItem("token"); // или твой способ выхода
     setTimeout(() => {
       navigate("/login", { replace: true });
-    }, 5000); // Задержка 1000 мс = 1 секунда
+    }, 2000); // Задержка 1000 мс = 1 секунда
     // Редирект на страницу входа
   }, [navigate]);
 

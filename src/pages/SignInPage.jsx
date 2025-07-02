@@ -24,11 +24,11 @@ function SignInPage() {
   return (
     <LoginWrapper>
       <LoginContainer>
-        <LoginTitle>Вход в аккаунт</LoginTitle>
+        <LoginTitle>Вход</LoginTitle>
         <LoginForm onSubmit={handleLogin}>
           <LoginInput
             type="text"
-            placeholder="Логин"
+            placeholder="Эл. почта"
             autoComplete="username"
             required
           />
@@ -41,9 +41,9 @@ function SignInPage() {
           <LoginButton type="submit">Войти</LoginButton>
         </LoginForm>
         <RegisterText>
-          Нет аккаунта?{" "}
+          Нужно зарегистрироваться?{" "}
           <StyledRegisterLink as={Link} to="/register">
-            Зарегистрироваться
+            Регистрируйтесь здесь
           </StyledRegisterLink>
         </RegisterText>
       </LoginContainer>

@@ -10,54 +10,82 @@ export const LoginWrapper = styled.div`
 
 export const LoginContainer = styled.div`
   background: #fff;
-  padding: 32px 24px;
+  padding: 50px 60px 50px 60px;
   border-radius: 12px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   text-align: center;
-  width: 320px;
+  width: 368px;
+  height: 329px;
 `;
 
 export const LoginTitle = styled.h2`
-  margin-bottom: 1.5em;
+  margin-bottom: 20px;
   font-weight: 700;
 `;
 
 export const LoginForm = styled.form`
   display: flex;
+
   flex-direction: column;
-  gap: 1em;
+  gap: 7px;
 `;
 
 export const LoginInput = styled.input`
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
-  border: 1px solid #d3d3d3;
+  width: 248px;
+  height: 30px;
+  padding: 8px 10px 8px 10px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 0.7px solid rgba(148, 166, 190, 0.4);
 `;
 
 export const LoginButton = styled.button`
-  padding: 10px;
-  font-size: 1em;
-  border-radius: 5px;
-  background: #377dff;
+  padding: 8px 10px 8px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  background: rgb(86, 94, 239);
   color: #fff;
   border: none;
   cursor: pointer;
   font-weight: 600;
-  margin-top: 0.5em;
+  margin: 20px 0px;
+  width: 248px;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const RegisterText = styled.p`
-  margin-top: 1.5em;
-  font-size: 0.98em;
+  display: flex;
+  flex-direction: ${({ $direction }) => $direction || "column"};
+  justify-content: flex-start;
+  align-items: center;
+  gap: ${({ $direction }) => ($direction === "row" ? "5px" : "20")};
+  padding: 0px;
+  font-size: 14px;
+  color: rgba(148, 166, 190, 0.4);
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -1%;
+  text-align: center;
 `;
 
 export const StyledRegisterLink = styled(Link)`
-  color: #377dff;
+  color: rgba(148, 166, 190, 0.4);
   text-decoration: underline;
   font-weight: 500;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: -1%;
+  text-align: center;
 
   &:hover {
-    color: #235ab5;
+    text-decoration: none;
   }
 `;

@@ -17,6 +17,12 @@ const SignUpPage = () => (
       <LoginForm>
         <LoginInput type="text" placeholder="Имя" required />
         <LoginInput
+          type="text"
+          placeholder="Эл. почта"
+          autoComplete="username"
+          required
+        />
+        <LoginInput
           type="password"
           placeholder="Пароль"
           autoComplete="new-password"
@@ -24,9 +30,9 @@ const SignUpPage = () => (
         />
         <LoginButton type="submit">Зарегистрироваться</LoginButton>
       </LoginForm>
-      <RegisterText>
+      <RegisterText $direction="row">
         Уже есть аккаунт?{" "}
-        <StyledRegisterLink to="/login">Войти</StyledRegisterLink>
+        <StyledRegisterLink to="/login">Войдите здесь</StyledRegisterLink>
       </RegisterText>
     </LoginContainer>
   </LoginWrapper>

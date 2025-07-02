@@ -4,12 +4,12 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import NotFound from "./pages/404";
 import ProtectedRoute from "./components/ProtectedRoute";
-import CardComponent from "./components/Card";
-import Login from "./pages/Login";
 import ExitPage from "./pages/ExitPage";
-import PopBrowseComponent from "./components/pop-browse";
 import PopBrowseModal from "./components/PopBrowseModal";
-function AppRoutes() {
+import ExitConfirmModal from "./components/ExitConfirmModal";
+
+// ⬇️ Принимаем два пропса для темы от родителя (например, из App.jsx)
+function AppRoutes({ isDarkTheme, setIsDarkTheme }) {
   return (
     <Routes>
       <Route path="*" element={<NotFound />} />
@@ -20,12 +20,16 @@ function AppRoutes() {
         path="/"
         element={
           <ProtectedRoute>
-            <MainPage />
+            <MainPage
+              isDarkTheme={isDarkTheme}
+              setIsDarkTheme={setIsDarkTheme}
+            />
           </ProtectedRoute>
         }
       >
-        {/* Вложенный маршрут для модального окна */}
+        {/* Вложенные маршруты для модалки по карточке */}
         <Route path="card/:id" element={<PopBrowseModal />} />
+        <Route path="exit-confirm" element={<ExitConfirmModal />} />
       </Route>
     </Routes>
   );

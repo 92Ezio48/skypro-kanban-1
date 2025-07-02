@@ -10,7 +10,15 @@ import {
   CardContent,
   CardDate,
 } from "./Card-styled";
-function CardComponent({ theme, title, date, status, onBrowseClick }) {
+
+function CardComponent({
+  theme,
+  title,
+  date,
+  status,
+  onBrowseClick,
+  isDarkTheme, // <- приходит пропс из родителя (в ColumnComponent)
+}) {
   const themeColors = {
     Research: "rgb(180, 253, 209)",
     Copywriting: "rgb(233, 212, 255)",
@@ -27,20 +35,22 @@ function CardComponent({ theme, title, date, status, onBrowseClick }) {
 
   return (
     <CardItem>
-      <CardInner>
+      {/* ВАЖНО: Передавай isDarkTheme внутрь CardInner */}
+      <CardInner $isDarkTheme={isDarkTheme}>
         <CardGroup>
           <CardTheme $bg={$bgColor} color={textColor}>
             <CardThemeP>{theme}</CardThemeP>
           </CardTheme>
           <CardBtn onClick={onBrowseClick}>
-            {/* Лучше убрать <a href="#popBrowse">! */}
             <CardBtnDot />
             <CardBtnDot />
             <CardBtnDot />
           </CardBtn>
         </CardGroup>
         <CardContent>
-          <CardTitle $isDone={$isDone}>{title}</CardTitle>
+          <CardTitle $isDone={$isDone} $isDarkTheme={isDarkTheme}>
+            {title}
+          </CardTitle>
           <CardDate>
             <p>{date}</p>
           </CardDate>

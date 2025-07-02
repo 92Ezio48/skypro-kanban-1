@@ -3,7 +3,7 @@ import CardComponent from "./Card";
 import CardsLoader from "../CardsLoader";
 import { useNavigate } from "react-router-dom";
 import PopbrowseComponent from "./pop-browse"; // импортируй модалку
-function ColumnComponent({ title, cards }) {
+function ColumnComponent({ title, cards, isDarkTheme }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   // 👇 Состояния для модалки
@@ -32,6 +32,7 @@ function ColumnComponent({ title, cards }) {
               status={card.status}
               // 👇 Прокидывай обработчик клика и всю карточку
               onBrowseClick={() => navigate(`/card/${card.id}`)}
+              isDarkTheme={isDarkTheme}
             />
           ))
         )}
