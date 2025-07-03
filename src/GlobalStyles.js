@@ -1,10 +1,16 @@
 import { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
+export const MainContent = styled.div`
+  width: 100%;
+  display: flex;
+`;
 export const GlobalStyle = createGlobalStyle`* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   
 }
+
 
 *:before,
 *:after {
@@ -655,6 +661,8 @@ body {
   margin: 0 auto;
   padding: 25px 0 49px;
 }
+
+
 .main__content {
   width: 100%;
   display: flex;

@@ -4,7 +4,7 @@ import { cardList } from "../data.js";
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { MainComponent, Container, Mainblock } from "../styled-components.js";
-
+import { MainContent } from "../GlobalStyles.js";
 const statuses = [
   "Без статуса",
   "Нужно сделать",
@@ -36,7 +36,7 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
       <MainComponent $isDarkTheme={isDarkTheme} />
       <Container $isDarkTheme={isDarkTheme}>
         <Mainblock $isDarkTheme={isDarkTheme}>
-          <div className="main__content">
+          <MainContent>
             {columns.map((col) => (
               <ColumnComponent
                 key={col.title}
@@ -45,7 +45,7 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
                 isDarkTheme={isDarkTheme}
               />
             ))}
-          </div>
+          </MainContent>
         </Mainblock>
       </Container>
       <Outlet /> {/* <-- Место появления всех модалок по вложенным роутам */}
