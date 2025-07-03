@@ -15,6 +15,7 @@ import {
   ToggleSwitchLabel,
   ToggleSwitchCheckbox,
   ToggleSwitchSlider,
+  Container,
 } from "./Header-styled";
 
 function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
@@ -27,7 +28,7 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
 
   return (
     <StyledHeader $isDarkTheme={isDarkTheme}>
-      <div className="container">
+      <Container>
         <HeaderBlock $isDarkTheme={isDarkTheme}>
           <LogoWrap>
             <a href="/" target="_self">
@@ -38,8 +39,8 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
             </a>
           </LogoWrap>
           <NavWrap $isDarkTheme={isDarkTheme}>
-            <NewTaskButton id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+            <NewTaskButton id="btnMainNew" onClick={() => navigate("/create")}>
+              Создать новую задачу
             </NewTaskButton>
             <UserSpan
               $isDarkTheme={isDarkTheme}
@@ -75,7 +76,7 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
             </UserPopup>
           </NavWrap>
         </HeaderBlock>
-      </div>
+      </Container>
     </StyledHeader>
   );
 }

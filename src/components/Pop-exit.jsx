@@ -1,12 +1,26 @@
 import { useNavigate } from "react-router-dom";
-
-function PopexitComponent({ onClose }) {
+import {
+  Overlay,
+  Container,
+  Block,
+  Title,
+  BtnGroup,
+  YesBtn,
+  NoBtn,
+} from "./Pop-exit-styled";
+function PopexitComponent({ onClose, setIsAuth }) {
   const navigate = useNavigate();
+
   function handleLogout(e) {
     e.preventDefault();
-    // Здесь можешь вызвать логаут, очистку токена...
-    navigate("/sign-in");
-    if (onClose) onClose(); // для очистки модалки, если нужно
+    // 1. Сбросить авторизацию:
+    setIsAuth(false);
+    // 2. Почистить токен если нужно:
+    localStorage.removeItem("token"); // если используешь
+    // 3. Переход на логин:
+    navigate("/login", { replace: true });
+    // 4. Закрыть модалку (если нужно)
+    if (onClose) onClose();
   }
 
   function handleStay(e) {
@@ -15,33 +29,25 @@ function PopexitComponent({ onClose }) {
   }
 
   return (
-    <div className="pop-exit" id="popExit">
-      <div className="pop-exit__container">
-        <div className="pop-exit__block">
-          <div className="pop-exit__ttl">
+    <Overlay>
+      <Container>
+        <Block>
+          <Title>
             <h2>Выйти из аккаунта?</h2>
-          </div>
-          <form className="pop-exit__form" id="formExit" action="#">
-            <div className="pop-exit__form-group">
-              <button
-                className="pop-exit__exit-yes _hover01"
-                id="exitYes"
-                onClick={handleLogout}
-              >
+          </Title>
+          <form action="#">
+            <BtnGroup>
+              <YesBtn id="exitYes" onClick={handleLogout}>
                 Да, выйти
-              </button>
-              <button
-                className="pop-exit__exit-no _hover03"
-                id="exitNo"
-                onClick={handleStay}
-              >
+              </YesBtn>
+              <NoBtn id="exitNo" onClick={handleStay}>
                 Нет, остаться
-              </button>
-            </div>
+              </NoBtn>
+            </BtnGroup>
           </form>
-        </div>
-      </div>
-    </div>
+        </Block>
+      </Container>
+    </Overlay>
   );
 }
 

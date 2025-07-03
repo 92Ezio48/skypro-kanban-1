@@ -13,6 +13,9 @@ import {
   CalendarCells,
   CalendarCell,
   CalendarPeriod,
+  HiddenInput,
+  DateControl,
+  
 } from "./Calendar-styled";
 function CalendarComponent() {
   return (
@@ -76,10 +79,10 @@ function CalendarComponent() {
             </CalendarCell>
           </CalendarCells>
         </CalendarContent>
-        <input type="hidden" id="datepick_value" value="08.09.2023" />
+        <HiddenInput type="hidden" id="datepick_value" value="08.09.2023" />
         <CalendarPeriod>
           <CalendarParagraph>
-            Выберите срок исполнения <span className="date-control"></span>.
+            Выберите срок исполнения <DateControl>08.09.2023</DateControl>.
           </CalendarParagraph>
         </CalendarPeriod>
       </CalendarBlock>

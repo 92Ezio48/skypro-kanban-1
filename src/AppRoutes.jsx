@@ -4,35 +4,36 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import NotFound from "./pages/404";
 import ProtectedRoute from "./components/ProtectedRoute";
-import ExitPage from "./pages/ExitPage";
 import PopBrowseModal from "./components/PopBrowseModal";
 import ExitConfirmModal from "./components/ExitConfirmModal";
+import PopnewcardComponent from "./components/pop-new-card";
 
-// ⬇️ Принимаем два пропса для темы от родителя (например, из App.jsx)
-function AppRoutes({ isDarkTheme, setIsDarkTheme }) {
+function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
   return (
     <Routes>
       <Route path="*" element={<NotFound />} />
-      <Route path="/exit" element={<ExitPage />} />
-      <Route path="/login" element={<SignInPage />} />
+      <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
       <Route path="/register" element={<SignUpPage />} />
-      <Route
-        path="/"
-        element={
-          <ProtectedRoute>
+      <Route path="/" element={<ProtectedRoute isAuth={isAuth} />}>
+        <Route
+          element={
             <MainPage
               isDarkTheme={isDarkTheme}
               setIsDarkTheme={setIsDarkTheme}
+              setIsAuth={setIsAuth}
             />
-          </ProtectedRoute>
-        }
-      >
-        {/* Вложенные маршруты для модалки по карточке */}
-        <Route path="card/:id" element={<PopBrowseModal />} />
-        <Route path="exit-confirm" element={<ExitConfirmModal />} />
+          }
+        >
+          <Route index element={null} />
+          <Route path="card/:id" element={<PopBrowseModal />} />
+          <Route path="create" element={<PopnewcardComponent />} />
+          <Route
+            path="exit-confirm"
+            element={<ExitConfirmModal setIsAuth={setIsAuth} />}
+          />
+        </Route>
       </Route>
     </Routes>
   );
 }
-
 export default AppRoutes;

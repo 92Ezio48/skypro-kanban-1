@@ -68,6 +68,11 @@ const NoBtn = styled.button`
     color: #ffffff;
   }
 `;
+const Title = styled.div`
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 24px;
+`;
 
 // ! КОМПОНЕНТ получает проп isDarkTheme (без доллара!)
 export default function ExitConfirmModal({ isDarkTheme }) {
@@ -75,13 +80,9 @@ export default function ExitConfirmModal({ isDarkTheme }) {
   return (
     <Overlay $isDarkTheme={isDarkTheme} onClick={() => navigate(-1)}>
       <Modal $isDarkTheme={isDarkTheme} onClick={(e) => e.stopPropagation()}>
-        <div
-          style={{ fontWeight: 600, fontSize: "20px", marginBottom: "24px" }}
-        >
-          Выйти из аккаунта?
-        </div>
+        <Title>Выйти из аккаунта?</Title>
         <ButtonBlock>
-          <YesBtn onClick={() => navigate("/exit")}>Да, выйти</YesBtn>
+          <YesBtn onClick={() => navigate("/login")}>Да, выйти</YesBtn>
           <NoBtn onClick={() => navigate(-1)}>Нет, остаться</NoBtn>
         </ButtonBlock>
       </Modal>

@@ -1,10 +1,7 @@
 import HeaderComponent from "../components/header";
-import PopbrowseComponent from "../components/pop-browse";
-import PopnewcardComponent from "../components/pop-new-card";
 import ColumnComponent from "../components/Column";
-import PopexitComponent from "../components/Pop-exit";
 import { cardList } from "../data.js";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { MainComponent, Container, Mainblock } from "../styled-components.js";
 
@@ -21,11 +18,7 @@ const columns = statuses.map((status) => ({
   cards: cardList.filter((card) => card.status === status),
 }));
 
-// 👇 Добавили пропсы для темы
 function MainPage({ isDarkTheme, setIsDarkTheme }) {
-  const [showExit, setShowExit] = useState(false);
-
-  // Смена темы на уровне <body>
   useEffect(() => {
     if (isDarkTheme) {
       document.body.classList.add("dark-theme");
@@ -36,14 +29,7 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
 
   return (
     <>
-      {/* pop-up start */}
-      {showExit && <PopexitComponent onClose={() => setShowExit(false)} />}
-      <PopnewcardComponent />
-      <PopbrowseComponent />
-      {/* pop-up end */}
-
       <HeaderComponent
-        onExitClick={() => setShowExit(true)}
         isDarkTheme={isDarkTheme}
         setIsDarkTheme={setIsDarkTheme}
       />
@@ -62,8 +48,7 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
           </div>
         </Mainblock>
       </Container>
-      <Outlet />
-      <MainComponent $isDarkTheme={isDarkTheme} />
+      <Outlet /> {/* <-- Место появления всех модалок по вложенным роутам */}
     </>
   );
 }

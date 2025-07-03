@@ -11,13 +11,17 @@ import {
   StyledRegisterLink,
 } from "../pages/Login.styled";
 
-function SignInPage() {
+// ⬇️ Обязательно получаем setIsAuth как пропс
+function SignInPage({ setIsAuth }) {
   const navigate = useNavigate();
 
   // Обработчик "войти"
   const handleLogin = (e) => {
     e.preventDefault();
+    // Сохраним токен (для совместимости, см. ProtectedRoute)
     localStorage.setItem("token", "testtoken");
+    // 👉 ОБЯЗАТЕЛЬНО меняем глобальный isAuth
+    setIsAuth(true);
     navigate("/");
   };
 

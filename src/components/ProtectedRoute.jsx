@@ -1,8 +1,8 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
-  const isAuth = !!localStorage.getItem("token"); // своя логика проверки
-  return isAuth ? children : <Navigate to="/register" />;
+function ProtectedRoute({ isAuth }) {
+  // Проверяем авторизацию только через пропс!
+  return isAuth ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 export default ProtectedRoute;

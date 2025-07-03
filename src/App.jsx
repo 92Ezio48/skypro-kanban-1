@@ -7,12 +7,19 @@ function App() {
   // Глобальный state темы
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
+  // Глобальный state авторизации
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
     <Wrapper $isDarkTheme={isDarkTheme}>
-      {/* Глобальные стили с темой */}
       <GlobalStyle $isDarkTheme={isDarkTheme} />
-      {/* Прокидываем пропсы темы (ТОЛЬКО ТАК! не через $) */}
-      <AppRoutes isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme} />
+      {/* Прокидываем темы и авторизацию */}
+      <AppRoutes
+        isDarkTheme={isDarkTheme}
+        setIsDarkTheme={setIsDarkTheme}
+        isAuth={isAuth}
+        setIsAuth={setIsAuth}
+      />
     </Wrapper>
   );
 }

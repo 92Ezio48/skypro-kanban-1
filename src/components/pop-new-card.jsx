@@ -1,68 +1,90 @@
+import React from "react";
+import { useNavigate } from "react-router-dom"; // обязательно!
 import CalendarComponent from "./calendar";
+import {
+  Overlay,
+  Container,
+  Block,
+  Content,
+  Title,
+  Close,
+  Wrap,
+  Form,
+  FormBlock,
+  Subttl,
+  Input,
+  TextArea,
+  Categories,
+  CategoriesTitle,
+  CategoryThemes,
+  CategoryTheme,
+  CategoryText,
+  CreateBtn,
+} from "./pop-new-card-styled";
+
 function PopnewcardComponent() {
+  const navigate = useNavigate();
+
   return (
-    <div className="pop-new-card" id="popNewCard">
-      <div className="pop-new-card__container">
-        <div className="pop-new-card__block">
-          <div className="pop-new-card__content">
-            <h3 className="pop-new-card__ttl">Создание задачи</h3>
-            <a href="#" className="pop-new-card__close">
+    <Overlay>
+      <Container>
+        <Block>
+          <Content>
+            <Title>Создание задачи</Title>
+            <Close
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/"); // ← возвращаемся на главную!
+              }}
+            >
               &#10006;
-            </a>
-            <div className="pop-new-card__wrap">
-              <form
-                className="pop-new-card__form form-new"
-                id="formNewCard"
-                action="#"
-              >
-                <div className="form-new__block">
-                  <label htmlFor="formTitle" className="subttl">
-                    Название задачи
-                  </label>
-                  <input
-                    className="form-new__input"
+            </Close>
+            <Wrap>
+              <Form action="#">
+                <FormBlock>
+                  <Subttl htmlFor="formTitle">Название задачи</Subttl>
+                  <Input
                     type="text"
                     name="name"
                     id="formTitle"
                     placeholder="Введите название задачи..."
                     autoFocus
                   />
-                </div>
-                <div className="form-new__block">
-                  <label htmlFor="textArea" className="subttl">
+                </FormBlock>
+                <FormBlock>
+                  <Subttl as="label" htmlFor="textArea">
                     Описание задачи
-                  </label>
-                  <textarea
-                    className="form-new__area"
+                  </Subttl>
+                  <TextArea
                     name="text"
                     id="textArea"
                     placeholder="Введите описание задачи..."
-                  ></textarea>
-                </div>
-              </form>
+                  />
+                </FormBlock>
+              </Form>
               <CalendarComponent />
-            </div>
-            <div className="pop-new-card__categories categories">
-              <p className="categories__p subttl">Категория</p>
-              <div className="categories__themes">
-                <div className="categories__theme _orange _active-category">
-                  <p className="_orange">Web Design</p>
-                </div>
-                <div className="categories__theme _green">
-                  <p className="_green">Research</p>
-                </div>
-                <div className="categories__theme _purple">
-                  <p className="_purple">Copywriting</p>
-                </div>
-              </div>
-            </div>
-            <button className="form-new__create _hover01" id="btnCreate">
-              Создать задачу
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Wrap>
+            <Categories>
+              <CategoriesTitle>Категория</CategoriesTitle>
+              <CategoryThemes>
+                <CategoryTheme color="orange" $active>
+                  <CategoryText color="orange">Web Design</CategoryText>
+                </CategoryTheme>
+                <CategoryTheme color="green">
+                  <CategoryText color="green">Research</CategoryText>
+                </CategoryTheme>
+                <CategoryTheme color="purple">
+                  <CategoryText color="purple">Copywriting</CategoryText>
+                </CategoryTheme>
+              </CategoryThemes>
+            </Categories>
+            <CreateBtn id="btnCreate">Создать задачу</CreateBtn>
+          </Content>
+        </Block>
+      </Container>
+    </Overlay>
   );
 }
+
 export default PopnewcardComponent;

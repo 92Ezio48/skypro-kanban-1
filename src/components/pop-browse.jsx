@@ -14,6 +14,8 @@ import {
   CalendarCells,
   CalendarCell,
   CalendarPeriod,
+  HiddenInput,
+  DateControl,
 } from "./Calendar-styled";
 import {
   PopBrowse,
@@ -149,15 +151,15 @@ function PopBrowseComponent({
                         </CalendarCell>
                       </CalendarCells>
                     </CalendarContent>
-                    <input
+                    <HiddenInput
                       type="hidden"
                       id="datepick_value"
                       value="08.09.2023"
                     />
                     <CalendarPeriod>
                       <CalendarParagraph>
-                        Срок исполнения:{" "}
-                        <span className="date-control">09.10.23.</span>
+                        Выберите срок исполнения{" "}
+                        <DateControl>08.09.2023</DateControl>.
                       </CalendarParagraph>
                     </CalendarPeriod>
                   </CalendarBlock>

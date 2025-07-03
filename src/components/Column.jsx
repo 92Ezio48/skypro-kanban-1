@@ -1,25 +1,30 @@
 import React, { useState, useEffect } from "react";
 import CardComponent from "./Card";
 import CardsLoader from "../CardsLoader";
+import PopbrowseComponent from "./pop-browse";
 import { useNavigate } from "react-router-dom";
-import PopbrowseComponent from "./pop-browse"; // импортируй модалку
+import { ColumnWrapper, ColumnTitle, CardsBlock } from "./Column-styled";
+
 function ColumnComponent({ title, cards, isDarkTheme }) {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  // 👇 Состояния для модалки
-  const [isBrowseOpen, setBrowseOpen] = useState(false);
-  const [selectedCard] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
-    // Имитация загрузки только для карточек этой колонки
     const timer = setTimeout(() => setLoading(false), 1500);
+
     return () => clearTimeout(timer);
-  }, [cards]); // можно добавить зависимость, если cards могут меняться
+  }, [cards]);
+
+  // ⚡️ Исправлено: объявляем handleBrowseClick
+  const handleBrowseClick = (card) => {
+    navigate(`/card/${card.id}`);
+  };
+
   return (
-    <div className="main__column column">
-      <div className="column__title">
+    <ColumnWrapper>
+      <ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </ColumnTitle>
+      <CardsBlock>
         {loading ? (
           <CardsLoader />
         ) : (
@@ -30,20 +35,15 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
               title={card.title}
               date={card.date}
               status={card.status}
-              // 👇 Прокидывай обработчик клика и всю карточку
-              onBrowseClick={() => navigate(`/card/${card.id}`)}
+              onBrowseClick={() => handleBrowseClick(card)}
               isDarkTheme={isDarkTheme}
             />
           ))
         )}
-      </div>
-      {/* Модалка для просмотра карточки */}
-      <PopbrowseComponent
-        isOpen={isBrowseOpen}
-        onClose={() => setBrowseOpen(false)}
-        card={selectedCard} // <-- передаём выбранную карточку!
-      />
-    </div>
+      </CardsBlock>
+      {/* PopbrowseComponent убираем отсюда, он теперь должен быть на уровне роутинга */}
+    </ColumnWrapper>
   );
 }
+
 export default ColumnComponent;
