@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // обязательно!
-import CalendarComponent from "./calendar";
+import CalendarComponent from "../components/calendar";
 import {
   Overlay,
   Container,
@@ -20,7 +20,7 @@ import {
   CategoryTheme,
   CategoryText,
   CreateBtn,
-} from "./pop-new-card-styled";
+} from "../components/pop-new-card-styled";
 
 function PopnewcardComponent() {
   const navigate = useNavigate();

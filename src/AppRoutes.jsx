@@ -3,10 +3,10 @@ import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import NotFound from "./pages/404";
-import ProtectedRoute from "./components/ProtectedRoute";
-import PopBrowseModal from "./components/PopBrowseModal";
-import ExitConfirmModal from "./components/ExitConfirmModal";
-import PopnewcardComponent from "./components/pop-new-card";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import PopBrowseModal from "./pages/PopBrowseModal";
+import ExitConfirmModal from "./pages/ExitConfirmModal";
+import PopnewcardComponent from "./pages/pop-new-card";
 
 function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
   return (
