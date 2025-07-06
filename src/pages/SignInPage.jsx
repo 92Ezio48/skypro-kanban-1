@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import * as S from "./SignInPage-styled";
+import { loginUser } from "../services/api";
 
-// ⬇️ Обязательно получаем setIsAuth как пропс
 function SignInPage({ setIsAuth }) {
   const navigate = useNavigate();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null); // для сообщений об ошибках
 
   // Обработчик "войти"
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    localStorage.setItem("token", "testtoken");
-    setIsAuth(true);
-    navigate("/");
+    setError(null);
+
+    try {
+      const user = await loginUser({ login, password });
+      localStorage.setItem("token", user.token);
+      setIsAuth(true);
+      navigate("/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   return (
@@ -23,16 +33,21 @@ function SignInPage({ setIsAuth }) {
             type="text"
             placeholder="Эл. почта"
             autoComplete="username"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)}
             required
           />
           <S.LoginInput
             type="password"
             placeholder="Пароль"
             autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
           <S.LoginButton type="submit">Войти</S.LoginButton>
         </S.LoginForm>
+        {error && <S.ErrorText>{error}</S.ErrorText>}
         <S.RegisterText>
           Нужно зарегистрироваться?{" "}
           <S.StyledRegisterLink as={Link} to="/register">

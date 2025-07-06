@@ -14,7 +14,7 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
   }, [cards]);
 
   const handleBrowseClick = (card) => {
-    navigate(`/card/${card.id}`);
+    navigate(`/card/${card._id}`);
   };
 
   return (
@@ -28,7 +28,7 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
         ) : (
           cards.map((card) => (
             <CardComponent
-              key={card.id}
+              key={card._id}
               theme={card.theme}
               title={card.title}
               date={card.date}
