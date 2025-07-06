@@ -116,3 +116,10 @@ export const CalendarCell = styled.div`
 export const CalendarPeriod = styled.div`
   padding: 0 7px;
 `;
+export const HiddenInput = styled.input`
+  display: none;
+`;
+export const DateControl = styled.span`
+  font-weight: 600;
+  color: #4246a1;
+`;

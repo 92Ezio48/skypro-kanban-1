@@ -4,7 +4,8 @@ import styled from "styled-components";
 export const StyledHeader = styled.header`
   width: 100%;
   margin: 0 auto;
-  background-color: #ffffff;
+  background: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255);"};
 `;
 // Контейнер
 export const HeaderBlock = styled.div`
@@ -60,7 +61,8 @@ export const UserSpan = styled.span`
   justify-content: center;
   font-size: 14px;
   line-height: 20px;
-  color: #565eef;
+  color: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "rgb(255, 255, 255)" : "#565eef"};
   cursor: pointer;
   position: relative;
 
@@ -87,7 +89,8 @@ export const UserPopup = styled.div`
   height: 205px;
   border-radius: 10px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
-  background: #fff;
+  background: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255);"};
   box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
   padding: 34px;
   text-align: center;
@@ -97,7 +100,8 @@ export const UserPopup = styled.div`
 export const PopupName = styled.p`
   font-weight: bold;
   margin-bottom: 8px;
-  color: rgb(0, 0, 0);
+  color: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "rgb(255, 255, 255)" : "#222e3a"};
   font-family: Roboto;
   font-size: 14px;
   font-weight: 500;
@@ -125,7 +129,8 @@ export const PopupTheme = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  color: rgb(0, 0, 0);
+  color: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "rgb(255, 255, 255)" : "#222e3a"};
   font-family: Roboto;
   font-size: 14px;
   font-weight: 500;
@@ -154,6 +159,11 @@ export const PopupLogoutButton = styled.button`
   & a {
     color: #565eef;
     text-decoration: none;
+  }
+  &:hover {
+    background-color: #565eef;
+    color: #ffffff;
+    border: 0.7px solid rgb(86, 94, 239);
   }
 `;
 // Обёртка для ползунка
@@ -200,4 +210,10 @@ export const ToggleSwitchSlider = styled.span`
     transition: 0.4s;
     border-radius: 50%;
   }
+`;
+export const Container = styled.div`
+  max-width: 1260px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 30px;
 `;

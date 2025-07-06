@@ -12,7 +12,8 @@ export const CardItem = styled.div`
 export const CardInner = styled.div`
   width: 220px;
   height: 130px;
-  background-color: #ffffff;
+  background: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255)"};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -68,7 +69,7 @@ export const CardTitle = styled.h3`
   font-size: 14px;
   font-weight: 500;
   line-height: 18px;
-  color: #000000;
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
   margin-bottom: 10px;
   ${({ $isDone }) => $isDone && `text-decoration: line-through;`}
 `;

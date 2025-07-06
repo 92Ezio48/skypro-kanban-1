@@ -1,17 +1,13 @@
-import {
-  CardItem,
-  CardInner,
-  CardGroup,
-  CardTheme,
-  CardThemeP,
-  CardBtn,
-  CardBtnDot,
-  CardTitle,
-  CardContent,
-  CardDate,
-} from "./Card-styled";
+import * as S from "./Card-styled";
 
-function CardComponent({ theme, title, date, status }) {
+function CardComponent({
+  theme,
+  title,
+  date,
+  status,
+  onBrowseClick,
+  isDarkTheme, // <- приходит пропс из родителя (в ColumnComponent)
+}) {
   const themeColors = {
     Research: "rgb(180, 253, 209)",
     Copywriting: "rgb(233, 212, 255)",
@@ -27,30 +23,28 @@ function CardComponent({ theme, title, date, status }) {
   const $isDone = status === "Готово";
 
   return (
-    <CardItem>
-      <CardInner>
-        <CardGroup>
-          <CardTheme $bg={$bgColor} color={textColor}>
-            <CardThemeP>{theme}</CardThemeP>
-          </CardTheme>
-          <a href="#popBrowse" target="_self">
-            <CardBtn>
-              <CardBtnDot />
-              <CardBtnDot />
-              <CardBtnDot />
-            </CardBtn>
-          </a>
-        </CardGroup>
-        <CardContent>
-          <a href="" target="_blank">
-            <CardTitle $isDone={$isDone}>{title}</CardTitle>
-          </a>
-          <CardDate>
+    <S.CardItem>
+      <S.CardInner $isDarkTheme={isDarkTheme}>
+        <S.CardGroup>
+          <S.CardTheme $bg={$bgColor} color={textColor}>
+            <S.CardThemeP>{theme}</S.CardThemeP>
+          </S.CardTheme>
+          <S.CardBtn onClick={onBrowseClick}>
+            <S.CardBtnDot />
+            <S.CardBtnDot />
+            <S.CardBtnDot />
+          </S.CardBtn>
+        </S.CardGroup>
+        <S.CardContent>
+          <S.CardTitle $isDone={$isDone} $isDarkTheme={isDarkTheme}>
+            {title}
+          </S.CardTitle>
+          <S.CardDate>
             <p>{date}</p>
-          </CardDate>
-        </CardContent>
-      </CardInner>
-    </CardItem>
+          </S.CardDate>
+        </S.CardContent>
+      </S.CardInner>
+    </S.CardItem>
   );
 }
 

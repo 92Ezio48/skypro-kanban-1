@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from "react";
 import CardComponent from "./Card";
 import CardsLoader from "../CardsLoader";
-function ColumnComponent({ title, cards }) {
+import { useNavigate } from "react-router-dom";
+import * as S from "./Column-styled";
+
+function ColumnComponent({ title, cards, isDarkTheme }) {
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
   useEffect(() => {
-    // Имитация загрузки только для карточек этой колонки
     const timer = setTimeout(() => setLoading(false), 1500);
     return () => clearTimeout(timer);
-  }, [cards]); // можно добавить зависимость, если cards могут меняться
+  }, [cards]);
+
+  const handleBrowseClick = (card) => {
+    navigate(`/card/${card.id}`);
+  };
+
   return (
-    <div className="main__column column">
-      <div className="column__title">
+    <S.ColumnWrapper>
+      <S.ColumnTitle>
         <p>{title}</p>
-      </div>
-      <div className="cards">
+      </S.ColumnTitle>
+      <S.CardsBlock>
         {loading ? (
-          <CardsLoader /> // Показываем индикатор загрузки
+          <CardsLoader />
         ) : (
           cards.map((card) => (
             <CardComponent
@@ -24,11 +33,14 @@ function ColumnComponent({ title, cards }) {
               title={card.title}
               date={card.date}
               status={card.status}
+              onBrowseClick={() => handleBrowseClick(card)}
+              isDarkTheme={isDarkTheme}
             />
           ))
         )}
-      </div>
-    </div>
+      </S.CardsBlock>
+      {/* PopBrowseComponent теперь должен быть на уровне роутинга */}
+    </S.ColumnWrapper>
   );
 }
 
