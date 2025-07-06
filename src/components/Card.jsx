@@ -1,15 +1,4 @@
-import {
-  CardItem,
-  CardInner,
-  CardGroup,
-  CardTheme,
-  CardThemeP,
-  CardBtn,
-  CardBtnDot,
-  CardTitle,
-  CardContent,
-  CardDate,
-} from "./Card-styled";
+import * as S from "./Card-styled";
 
 function CardComponent({
   theme,
@@ -34,29 +23,29 @@ function CardComponent({
   const $isDone = status === "Готово";
 
   return (
-    <CardItem>
-      {/* ВАЖНО: Передавай isDarkTheme внутрь CardInner */}
-      <CardInner $isDarkTheme={isDarkTheme}>
-        <CardGroup>
-          <CardTheme $bg={$bgColor} color={textColor}>
-            <CardThemeP>{theme}</CardThemeP>
-          </CardTheme>
-          <CardBtn onClick={onBrowseClick}>
-            <CardBtnDot />
-            <CardBtnDot />
-            <CardBtnDot />
-          </CardBtn>
-        </CardGroup>
-        <CardContent>
-          <CardTitle $isDone={$isDone} $isDarkTheme={isDarkTheme}>
+    <S.CardItem>
+      <S.CardInner $isDarkTheme={isDarkTheme}>
+        <S.CardGroup>
+          <S.CardTheme $bg={$bgColor} color={textColor}>
+            <S.CardThemeP>{theme}</S.CardThemeP>
+          </S.CardTheme>
+          <S.CardBtn onClick={onBrowseClick}>
+            <S.CardBtnDot />
+            <S.CardBtnDot />
+            <S.CardBtnDot />
+          </S.CardBtn>
+        </S.CardGroup>
+        <S.CardContent>
+          <S.CardTitle $isDone={$isDone} $isDarkTheme={isDarkTheme}>
             {title}
-          </CardTitle>
-          <CardDate>
+          </S.CardTitle>
+          <S.CardDate>
             <p>{date}</p>
-          </CardDate>
-        </CardContent>
-      </CardInner>
-    </CardItem>
+          </S.CardDate>
+        </S.CardContent>
+      </S.CardInner>
+    </S.CardItem>
   );
 }
+
 export default CardComponent;

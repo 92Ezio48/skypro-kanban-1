@@ -1,41 +1,32 @@
 import React from "react";
-import {
-  LoginWrapper,
-  LoginContainer,
-  LoginTitle,
-  LoginForm,
-  LoginInput,
-  LoginButton,
-  RegisterText,
-  StyledRegisterLink,
-} from "./Login.styled";
+import * as S from "./SignInPage-styled";
 
 const SignUpPage = () => (
-  <LoginWrapper>
-    <LoginContainer>
-      <LoginTitle>Регистрация</LoginTitle>
-      <LoginForm>
-        <LoginInput type="text" placeholder="Имя" required />
-        <LoginInput
+  <S.LoginWrapper>
+    <S.LoginContainer>
+      <S.LoginTitle>Регистрация</S.LoginTitle>
+      <S.LoginForm>
+        <S.LoginInput type="text" placeholder="Имя" required />
+        <S.LoginInput
           type="text"
           placeholder="Эл. почта"
           autoComplete="username"
           required
         />
-        <LoginInput
+        <S.LoginInput
           type="password"
           placeholder="Пароль"
           autoComplete="new-password"
           required
         />
-        <LoginButton type="submit">Зарегистрироваться</LoginButton>
-      </LoginForm>
-      <RegisterText $direction="row">
+        <S.LoginButton type="submit">Зарегистрироваться</S.LoginButton>
+      </S.LoginForm>
+      <S.RegisterText $direction="row">
         Уже есть аккаунт?{" "}
-        <StyledRegisterLink to="/login">Войдите здесь</StyledRegisterLink>
-      </RegisterText>
-    </LoginContainer>
-  </LoginWrapper>
+        <S.StyledRegisterLink to="/login">Войдите здесь</S.StyledRegisterLink>
+      </S.RegisterText>
+    </S.LoginContainer>
+  </S.LoginWrapper>
 );
 
 export default SignUpPage;

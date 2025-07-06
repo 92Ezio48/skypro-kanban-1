@@ -1,15 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  LoginWrapper,
-  LoginContainer,
-  LoginTitle,
-  LoginForm,
-  LoginInput,
-  LoginButton,
-  RegisterText,
-  StyledRegisterLink,
-} from "../pages/Login.styled";
+import * as S from "./SignInPage-styled";
 
 // ⬇️ Обязательно получаем setIsAuth как пропс
 function SignInPage({ setIsAuth }) {
@@ -18,40 +9,38 @@ function SignInPage({ setIsAuth }) {
   // Обработчик "войти"
   const handleLogin = (e) => {
     e.preventDefault();
-    // Сохраним токен (для совместимости, см. ProtectedRoute)
     localStorage.setItem("token", "testtoken");
-    // 👉 ОБЯЗАТЕЛЬНО меняем глобальный isAuth
     setIsAuth(true);
     navigate("/");
   };
 
   return (
-    <LoginWrapper>
-      <LoginContainer>
-        <LoginTitle>Вход</LoginTitle>
-        <LoginForm onSubmit={handleLogin}>
-          <LoginInput
+    <S.LoginWrapper>
+      <S.LoginContainer>
+        <S.LoginTitle>Вход</S.LoginTitle>
+        <S.LoginForm onSubmit={handleLogin}>
+          <S.LoginInput
             type="text"
             placeholder="Эл. почта"
             autoComplete="username"
             required
           />
-          <LoginInput
+          <S.LoginInput
             type="password"
             placeholder="Пароль"
             autoComplete="current-password"
             required
           />
-          <LoginButton type="submit">Войти</LoginButton>
-        </LoginForm>
-        <RegisterText>
+          <S.LoginButton type="submit">Войти</S.LoginButton>
+        </S.LoginForm>
+        <S.RegisterText>
           Нужно зарегистрироваться?{" "}
-          <StyledRegisterLink as={Link} to="/register">
+          <S.StyledRegisterLink as={Link} to="/register">
             Регистрируйтесь здесь
-          </StyledRegisterLink>
-        </RegisterText>
-      </LoginContainer>
-    </LoginWrapper>
+          </S.StyledRegisterLink>
+        </S.RegisterText>
+      </S.LoginContainer>
+    </S.LoginWrapper>
   );
 }
 

@@ -1,10 +1,11 @@
-import HeaderComponent from "../components/header";
+import HeaderComponent from "../components/Header.jsx";
 import ColumnComponent from "../components/Column";
-import { cardList } from "../data.js";
+import { cardList } from "../CardData.js";
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { MainComponent, Container, Mainblock } from "../styled-components.js";
+import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
+
 const statuses = [
   "Без статуса",
   "Нужно сделать",
@@ -33,21 +34,22 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
         isDarkTheme={isDarkTheme}
         setIsDarkTheme={setIsDarkTheme}
       />
-      <MainComponent $isDarkTheme={isDarkTheme} />
-      <Container $isDarkTheme={isDarkTheme}>
-        <Mainblock $isDarkTheme={isDarkTheme}>
-          <MainContent>
-            {columns.map((col) => (
-              <ColumnComponent
-                key={col.title}
-                title={col.title}
-                cards={col.cards}
-                isDarkTheme={isDarkTheme}
-              />
-            ))}
-          </MainContent>
-        </Mainblock>
-      </Container>
+      <S.MainComponent $isDarkTheme={isDarkTheme}>
+        <S.Container $isDarkTheme={isDarkTheme}>
+          <S.Mainblock $isDarkTheme={isDarkTheme}>
+            <MainContent>
+              {columns.map((col) => (
+                <ColumnComponent
+                  key={col.title}
+                  title={col.title}
+                  cards={col.cards}
+                  isDarkTheme={isDarkTheme}
+                />
+              ))}
+            </MainContent>
+          </S.Mainblock>
+        </S.Container>
+      </S.MainComponent>
       <Outlet /> {/* <-- Место появления всех модалок по вложенным роутам */}
     </>
   );

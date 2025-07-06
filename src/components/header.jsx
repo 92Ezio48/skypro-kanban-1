@@ -1,22 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  StyledHeader,
-  HeaderBlock,
-  LogoWrap,
-  NavWrap,
-  NewTaskButton,
-  UserSpan,
-  UserPopup,
-  PopupName,
-  PopupMail,
-  PopupTheme,
-  PopupLogoutButton,
-  ToggleSwitchLabel,
-  ToggleSwitchCheckbox,
-  ToggleSwitchSlider,
-  Container,
-} from "./Header-styled";
+import * as S from "./Header-styled";
 
 function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
@@ -27,44 +11,47 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
   };
 
   return (
-    <StyledHeader $isDarkTheme={isDarkTheme}>
-      <Container>
-        <HeaderBlock $isDarkTheme={isDarkTheme}>
-          <LogoWrap>
+    <S.StyledHeader $isDarkTheme={isDarkTheme}>
+      <S.Container>
+        <S.HeaderBlock $isDarkTheme={isDarkTheme}>
+          <S.LogoWrap>
             <a href="/" target="_self">
               <img
                 src={isDarkTheme ? "images/logo_dark.png" : "images/logo.png"}
                 alt="logo"
               />
             </a>
-          </LogoWrap>
-          <NavWrap $isDarkTheme={isDarkTheme}>
-            <NewTaskButton id="btnMainNew" onClick={() => navigate("/create")}>
+          </S.LogoWrap>
+          <S.NavWrap $isDarkTheme={isDarkTheme}>
+            <S.NewTaskButton
+              id="btnMainNew"
+              onClick={() => navigate("/create")}
+            >
               Создать новую задачу
-            </NewTaskButton>
-            <UserSpan
+            </S.NewTaskButton>
+            <S.UserSpan
               $isDarkTheme={isDarkTheme}
               onClick={() => setIsUserPopupOpen((open) => !open)}
             >
               {user.name}
-            </UserSpan>
-            <UserPopup $isDarkTheme={isDarkTheme} open={isUserPopupOpen}>
-              <PopupName $isDarkTheme={isDarkTheme}>{user.name}</PopupName>
-              <PopupMail>{user.email}</PopupMail>
-              <PopupTheme $isDarkTheme={isDarkTheme}>
+            </S.UserSpan>
+            <S.UserPopup $isDarkTheme={isDarkTheme} open={isUserPopupOpen}>
+              <S.PopupName $isDarkTheme={isDarkTheme}>{user.name}</S.PopupName>
+              <S.PopupMail>{user.email}</S.PopupMail>
+              <S.PopupTheme $isDarkTheme={isDarkTheme}>
                 <p>Темная тема</p>
-                <ToggleSwitchLabel>
-                  <ToggleSwitchCheckbox
+                <S.ToggleSwitchLabel>
+                  <S.ToggleSwitchCheckbox
                     className="checkbox"
                     name="checkbox"
                     type="checkbox"
                     checked={isDarkTheme}
                     onChange={() => setIsDarkTheme((prev) => !prev)}
                   />
-                  <ToggleSwitchSlider $isDarkTheme={isDarkTheme} />
-                </ToggleSwitchLabel>
-              </PopupTheme>
-              <PopupLogoutButton
+                  <S.ToggleSwitchSlider $isDarkTheme={isDarkTheme} />
+                </S.ToggleSwitchLabel>
+              </S.PopupTheme>
+              <S.PopupLogoutButton
                 type="button"
                 onClick={() => {
                   navigate("/exit-confirm");
@@ -72,12 +59,13 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
                 }}
               >
                 Выйти
-              </PopupLogoutButton>
-            </UserPopup>
-          </NavWrap>
-        </HeaderBlock>
-      </Container>
-    </StyledHeader>
+              </S.PopupLogoutButton>
+            </S.UserPopup>
+          </S.NavWrap>
+        </S.HeaderBlock>
+      </S.Container>
+    </S.StyledHeader>
   );
 }
+
 export default HeaderComponent;

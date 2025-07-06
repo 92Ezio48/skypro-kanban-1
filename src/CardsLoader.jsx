@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CardComponent from "./components/Card";
-import { cardList } from "./data";
+import { cardList } from "./CardData";
 
 function CardsLoader() {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,9 @@ function CardsLoader() {
       }}
     >
       {loading ? (
-        <div className="loaderCards">Данные<br></br> загружаются...</div>
+        <div className="loaderCards">
+          Данные<br></br> загружаются...
+        </div>
       ) : (
         cardList.map((card) => (
           <CardComponent

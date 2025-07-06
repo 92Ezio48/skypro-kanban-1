@@ -2,11 +2,11 @@ import { Routes, Route } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
-import NotFound from "./pages/404";
-import ProtectedRoute from "./pages/ProtectedRoute";
-import PopBrowseModal from "./pages/PopBrowseModal";
-import ExitConfirmModal from "./pages/ExitConfirmModal";
-import PopnewcardComponent from "./pages/pop-new-card";
+import NotFound from "./pages/404Page";
+import ProtectedRoute from "./pages/ProtectedRoutePage";
+import PopBrowseModal from "./pages/PopBrowsePage";
+import ExitConfirmModal from "./pages/ExitConfirmPage";
+import PopnewcardComponent from "./pages/PopNewCardPage";
 
 function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
   return (

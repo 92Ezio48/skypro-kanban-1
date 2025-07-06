@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
-import PopBrowseComponent from "../components/pop-browse";
-import { cardList } from "../data";
+import PopBrowseComponent from "../components/PopBrowse";
+import { cardList } from "../CardData";
 
 function PopBrowseModal() {
   const { id } = useParams();

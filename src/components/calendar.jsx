@@ -1,92 +1,76 @@
-import {
-  CalendarWrapper,
-  CalendarTitle,
-  CalendarParagraph,
-  CalendarBlock,
-  CalendarMonth,
-  CalendarNav,
-  NavActions,
-  NavAction,
-  CalendarContent,
-  CalendarDaysNames,
-  CalendarDayName,
-  CalendarCells,
-  CalendarCell,
-  CalendarPeriod,
-  HiddenInput,
-  DateControl,
-  
-} from "./Calendar-styled";
+import * as S from "./Calendar-styled";
+
 function CalendarComponent() {
   return (
-    <CalendarWrapper>
-      <CalendarTitle>Даты</CalendarTitle>
-      <CalendarBlock>
-        <CalendarNav>
-          <CalendarMonth>Сентябрь 2023</CalendarMonth>
-          <NavActions>
-            <NavAction data-action="prev">{/* svg ... */}</NavAction>
-            <NavAction data-action="next">{/* svg ... */}</NavAction>
-          </NavActions>
-        </CalendarNav>
-        <CalendarContent>
-          <CalendarDaysNames>
-            <CalendarDayName>пн</CalendarDayName>
-            <CalendarDayName>вт</CalendarDayName>
-            <CalendarDayName>ср</CalendarDayName>
-            <CalendarDayName>чт</CalendarDayName>
-            <CalendarDayName>пт</CalendarDayName>
-            <CalendarDayName $weekend>сб</CalendarDayName>
-            <CalendarDayName $weekend>вс</CalendarDayName>
-          </CalendarDaysNames>
-          <CalendarCells>
-            <CalendarCell $otherMonth>28</CalendarCell>
-            <CalendarCell $otherMonth>29</CalendarCell>
-            <CalendarCell $otherMonth>30</CalendarCell>
-            <CalendarCell>31</CalendarCell>
-            <CalendarCell $current>1</CalendarCell>
-            <CalendarCell $weekend>2</CalendarCell>
-            <CalendarCell $weekend>3</CalendarCell>
-            <CalendarCell $current>4</CalendarCell>
-            <CalendarCell $current>5</CalendarCell>
-            <CalendarCell $current>6</CalendarCell>
-            <CalendarCell $current>7</CalendarCell>
-            <CalendarCell $current>8</CalendarCell>
-            <CalendarCell $weekend>9</CalendarCell>
-            <CalendarCell $weekend>10</CalendarCell>
-            <CalendarCell $current>11</CalendarCell>
-            <CalendarCell $current>12</CalendarCell>
-            <CalendarCell $current>13</CalendarCell>
-            <CalendarCell $current>14</CalendarCell>
-            <CalendarCell $current>15</CalendarCell>
-            <CalendarCell $weekend>16</CalendarCell>
-            <CalendarCell $weekend>17</CalendarCell>
-            <CalendarCell $current>18</CalendarCell>
-            <CalendarCell $current>19</CalendarCell>
-            <CalendarCell $current>20</CalendarCell>
-            <CalendarCell $current>21</CalendarCell>
-            <CalendarCell $current>22</CalendarCell>
-            <CalendarCell $weekend>23</CalendarCell>
-            <CalendarCell $weekend>24</CalendarCell>
-            <CalendarCell $current>25</CalendarCell>
-            <CalendarCell $current>26</CalendarCell>
-            <CalendarCell $current>27</CalendarCell>
-            <CalendarCell $current>28</CalendarCell>
-            <CalendarCell $current>29</CalendarCell>
-            <CalendarCell $weekend>30</CalendarCell>
-            <CalendarCell $otherMonth $weekend>
+    <S.CalendarWrapper>
+      <S.CalendarTitle>Даты</S.CalendarTitle>
+      <S.CalendarBlock>
+        <S.CalendarNav>
+          <S.CalendarMonth>Сентябрь 2023</S.CalendarMonth>
+          <S.NavActions>
+            <S.NavAction data-action="prev">{/* svg ... */}</S.NavAction>
+            <S.NavAction data-action="next">{/* svg ... */}</S.NavAction>
+          </S.NavActions>
+        </S.CalendarNav>
+        <S.CalendarContent>
+          <S.CalendarDaysNames>
+            <S.CalendarDayName>пн</S.CalendarDayName>
+            <S.CalendarDayName>вт</S.CalendarDayName>
+            <S.CalendarDayName>ср</S.CalendarDayName>
+            <S.CalendarDayName>чт</S.CalendarDayName>
+            <S.CalendarDayName>пт</S.CalendarDayName>
+            <S.CalendarDayName $weekend>сб</S.CalendarDayName>
+            <S.CalendarDayName $weekend>вс</S.CalendarDayName>
+          </S.CalendarDaysNames>
+          <S.CalendarCells>
+            <S.CalendarCell $otherMonth>28</S.CalendarCell>
+            <S.CalendarCell $otherMonth>29</S.CalendarCell>
+            <S.CalendarCell $otherMonth>30</S.CalendarCell>
+            <S.CalendarCell>31</S.CalendarCell>
+            <S.CalendarCell $current>1</S.CalendarCell>
+            <S.CalendarCell $weekend>2</S.CalendarCell>
+            <S.CalendarCell $weekend>3</S.CalendarCell>
+            <S.CalendarCell $current>4</S.CalendarCell>
+            <S.CalendarCell $current>5</S.CalendarCell>
+            <S.CalendarCell $current>6</S.CalendarCell>
+            <S.CalendarCell $current>7</S.CalendarCell>
+            <S.CalendarCell $current>8</S.CalendarCell>
+            <S.CalendarCell $weekend>9</S.CalendarCell>
+            <S.CalendarCell $weekend>10</S.CalendarCell>
+            <S.CalendarCell $current>11</S.CalendarCell>
+            <S.CalendarCell $current>12</S.CalendarCell>
+            <S.CalendarCell $current>13</S.CalendarCell>
+            <S.CalendarCell $current>14</S.CalendarCell>
+            <S.CalendarCell $current>15</S.CalendarCell>
+            <S.CalendarCell $weekend>16</S.CalendarCell>
+            <S.CalendarCell $weekend>17</S.CalendarCell>
+            <S.CalendarCell $current>18</S.CalendarCell>
+            <S.CalendarCell $current>19</S.CalendarCell>
+            <S.CalendarCell $current>20</S.CalendarCell>
+            <S.CalendarCell $current>21</S.CalendarCell>
+            <S.CalendarCell $current>22</S.CalendarCell>
+            <S.CalendarCell $weekend>23</S.CalendarCell>
+            <S.CalendarCell $weekend>24</S.CalendarCell>
+            <S.CalendarCell $current>25</S.CalendarCell>
+            <S.CalendarCell $current>26</S.CalendarCell>
+            <S.CalendarCell $current>27</S.CalendarCell>
+            <S.CalendarCell $current>28</S.CalendarCell>
+            <S.CalendarCell $current>29</S.CalendarCell>
+            <S.CalendarCell $weekend>30</S.CalendarCell>
+            <S.CalendarCell $otherMonth $weekend>
               1
-            </CalendarCell>
-          </CalendarCells>
-        </CalendarContent>
-        <HiddenInput type="hidden" id="datepick_value" value="08.09.2023" />
-        <CalendarPeriod>
-          <CalendarParagraph>
-            Выберите срок исполнения <DateControl>08.09.2023</DateControl>.
-          </CalendarParagraph>
-        </CalendarPeriod>
-      </CalendarBlock>
-    </CalendarWrapper>
+            </S.CalendarCell>
+          </S.CalendarCells>
+        </S.CalendarContent>
+        <S.HiddenInput type="hidden" id="datepick_value" value="08.09.2023" />
+        <S.CalendarPeriod>
+          <S.CalendarParagraph>
+            Выберите срок исполнения <S.DateControl>08.09.2023</S.DateControl>.
+          </S.CalendarParagraph>
+        </S.CalendarPeriod>
+      </S.CalendarBlock>
+    </S.CalendarWrapper>
   );
 }
+
 export default CalendarComponent;
