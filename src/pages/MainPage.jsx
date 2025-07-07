@@ -1,10 +1,10 @@
 import HeaderComponent from "../components/Header.jsx";
 import ColumnComponent from "../components/Column";
-import { cardList } from "../CardData.js";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
+import { fetchTasks } from "../services/api.js";
 
 const statuses = [
   "Без статуса",
@@ -14,12 +14,21 @@ const statuses = [
   "Готово",
 ];
 
-const columns = statuses.map((status) => ({
-  title: status,
-  cards: cardList.filter((card) => card.status === status),
-}));
-
 function MainPage({ isDarkTheme, setIsDarkTheme }) {
+  const [tasks, setTasks] = useState([]);
+
+  // Загружаем задачи один раз и при необходимости перезагрузки
+  const loadTasks = async () => {
+    try {
+      const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
+      const fetchedTasks = await fetchTasks({ token }); // корректно брать токен отсюда!
+      setTasks(fetchedTasks);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Темная тема
   useEffect(() => {
     if (isDarkTheme) {
       document.body.classList.add("dark-theme");
@@ -27,6 +36,21 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
       document.body.classList.remove("dark-theme");
     }
   }, [isDarkTheme]);
+
+  // Загружаем задачи при маунте
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  // Коллбек для PopnewcardComponent
+  const handleTaskCreated = () => {
+    loadTasks();
+  };
+
+  const columns = statuses.map((status) => ({
+    title: status,
+    cards: tasks.filter((card) => card.status === status),
+  }));
 
   return (
     <>
@@ -50,7 +74,8 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
           </S.Mainblock>
         </S.Container>
       </S.MainComponent>
-      <Outlet /> {/* <-- Место появления всех модалок по вложенным роутам */}
+      <Outlet context={{ onTaskCreated: handleTaskCreated }} />
+      {/* outletContext позволяет вложенной странице получить функцию handleTaskCreated */}
     </>
   );
 }

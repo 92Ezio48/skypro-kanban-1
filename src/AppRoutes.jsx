@@ -14,8 +14,11 @@ function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
       <Route path="*" element={<NotFound />} />
       <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
       <Route path="/register" element={<SignUpPage />} />
-      <Route path="/" element={<ProtectedRoute isAuth={isAuth} />}>
+
+      {/* Обёртываем защищённую секцию в ProtectedRoute */}
+      <Route element={<ProtectedRoute isAuth={isAuth} />}>
         <Route
+          path="/"
           element={
             <MainPage
               isDarkTheme={isDarkTheme}
@@ -24,7 +27,7 @@ function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
             />
           }
         >
-          <Route index element={null} />
+          {/* Вложенные маршруты для модалок (через <Outlet /> в MainPage) */}
           <Route path="card/:id" element={<PopBrowseModal />} />
           <Route path="create" element={<PopnewcardComponent />} />
           <Route
@@ -36,4 +39,5 @@ function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
     </Routes>
   );
 }
+
 export default AppRoutes;
