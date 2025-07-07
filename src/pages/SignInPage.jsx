@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import * as S from "./SignInPage-styled";
-import { loginUser } from "../services/api";
+import { AuthContext } from "../context/AuthContext";
 
-function SignInPage({ setIsAuth }) {
+function SignInPage() {
   const navigate = useNavigate();
-  const [login, setLogin] = useState("");
+  const [userLogin, setUserLogin] = useState(""); // переименовал!
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null); // для сообщений об ошибках
+  const [error, setError] = useState(null);
 
-  // Обработчик "войти"
+  const { login } = useContext(AuthContext); // функцию логина можно оставить "login"
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      const user = await loginUser({ login, password });
-      localStorage.setItem("token", user.token);
-      setIsAuth(true);
+      await login({ login: userLogin, password }); // передаём правильно
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -33,8 +32,8 @@ function SignInPage({ setIsAuth }) {
             type="text"
             placeholder="Эл. почта"
             autoComplete="username"
-            value={login}
-            onChange={(e) => setLogin(e.target.value)}
+            value={userLogin}
+            onChange={(e) => setUserLogin(e.target.value)}
             required
           />
           <S.LoginInput

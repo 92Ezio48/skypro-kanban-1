@@ -89,3 +89,11 @@ export const StyledRegisterLink = styled(Link)`
     text-decoration: none;
   }
 `;
+export const ErrorText = styled.div`
+  color: #e74c3c;
+  margin-top: 14px;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+`;

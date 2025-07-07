@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
 import { fetchTasks } from "../services/api.js";
+import { TasksProvider } from "../context/TasksProvider.jsx";
 
 const statuses = [
   "Без статуса",
@@ -53,30 +54,32 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
   }));
 
   return (
-    <>
-      <HeaderComponent
-        isDarkTheme={isDarkTheme}
-        setIsDarkTheme={setIsDarkTheme}
-      />
-      <S.MainComponent $isDarkTheme={isDarkTheme}>
-        <S.Container $isDarkTheme={isDarkTheme}>
-          <S.Mainblock $isDarkTheme={isDarkTheme}>
-            <MainContent>
-              {columns.map((col) => (
-                <ColumnComponent
-                  key={col.title}
-                  title={col.title}
-                  cards={col.cards}
-                  isDarkTheme={isDarkTheme}
-                />
-              ))}
-            </MainContent>
-          </S.Mainblock>
-        </S.Container>
-      </S.MainComponent>
-      <Outlet context={{ onTaskCreated: handleTaskCreated }} />
-      {/* outletContext позволяет вложенной странице получить функцию handleTaskCreated */}
-    </>
+    <TasksProvider>
+      <>
+        <HeaderComponent
+          isDarkTheme={isDarkTheme}
+          setIsDarkTheme={setIsDarkTheme}
+        />
+        <S.MainComponent $isDarkTheme={isDarkTheme}>
+          <S.Container $isDarkTheme={isDarkTheme}>
+            <S.Mainblock $isDarkTheme={isDarkTheme}>
+              <MainContent>
+                {columns.map((col) => (
+                  <ColumnComponent
+                    key={col.title}
+                    title={col.title}
+                    cards={col.cards}
+                    isDarkTheme={isDarkTheme}
+                  />
+                ))}
+              </MainContent>
+            </S.Mainblock>
+          </S.Container>
+        </S.MainComponent>
+        <Outlet context={{ onTaskCreated: handleTaskCreated }} />
+        {/* outletContext позволяет вложенной странице получить функцию handleTaskCreated */}
+      </>
+    </TasksProvider>
   );
 }
 
