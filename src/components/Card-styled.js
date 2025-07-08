@@ -1,5 +1,18 @@
 import styled from "styled-components";
-
+export const themeColors = {
+  "Web Design": {
+    bg: "rgb(255, 228, 194)",
+    color: "rgb(255, 109, 0)",
+  },
+  Research: {
+    bg: "rgb(180, 253, 209)",
+    color: "color: rgb(6, 177, 110);",
+  },
+  Copywriting: {
+    bg: "rgb(233, 212, 255)",
+    color: "rgb(154, 72, 241)",
+  },
+};
 // 1. Обертка карточки
 export const CardItem = styled.div`
   padding: 5px;
@@ -30,6 +43,7 @@ export const CardGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  
 `;
 
 // 4. Тематика с пропами
@@ -88,6 +102,13 @@ export const CardDate = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  color: rgb(148, 166, 190);
+  font-family: Roboto;
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
+  gap: 7.22px;
+  text-align: left;
   svg {
     width: 13px;
   }
