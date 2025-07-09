@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { checkLs } from "./checkLs";
+import { loginUser } from "../services/api";
 const AuthProvider = ({ children }) => {
   // checkLs проверяет лс на наличие ключа userInfo
   const [user, setUser] = useState(checkLs()); // Здесь будет лежать инфа о юзере
@@ -27,9 +28,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const login = (loginData) => {
-    updateUserInfo(loginData);
-    return true;
+  const login = async ({ login, password }) => {
+    const userData = await loginUser({ login, password });
+    updateUserInfo(userData);
+    return userData;
   };
 
   const logout = () => {

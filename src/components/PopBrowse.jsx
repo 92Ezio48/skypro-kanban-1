@@ -30,8 +30,8 @@ function PopBrowseComponent({
   }
 
   const category = task.category || {
-    name: task.theme,
-    color: getThemeColor(task.theme),
+    name: task.topic,
+    color: getThemeColor(task.title),
   };
 
   return (
@@ -42,7 +42,7 @@ function PopBrowseComponent({
             <S.PopBrowseFHalf>
               <S.TopBlock>
                 <S.Title>{task.title}</S.Title>
-                <S.CategoryTag color={category.color} $active>
+                <S.CategoryTag categoryName={category.name} $active>
                   {category.name}
                 </S.CategoryTag>
               </S.TopBlock>

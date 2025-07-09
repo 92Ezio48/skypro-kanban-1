@@ -1,5 +1,18 @@
 import styled from "styled-components";
-
+export const themeColors = {
+  "Web Design": {
+    bg: "rgb(255, 228, 194)",
+    color: "rgb(255, 109, 0)",
+  },
+  Research: {
+    bg: "rgb(180, 253, 209)",
+    color: "color: rgb(6, 177, 110);",
+  },
+  Copywriting: {
+    bg: "rgb(233, 212, 255)",
+    color: "rgb(154, 72, 241)",
+  },
+};
 // Обертка popup
 export const PopBrowse = styled.div`
   width: 100%;
@@ -51,7 +64,16 @@ export const Title = styled.h3`
   font-weight: 600;
   line-height: 24px;
 `;
-
+const categoryBgColors = {
+  Research: "rgb(180, 253, 209)",
+  Copywriting: "rgb(233, 212, 255)",
+  "Web Design": "rgb(255, 228, 194)",
+};
+const categoryTextColors = {
+  Research: "rgb(6, 177, 110)",
+  Copywriting: "rgb(154, 72, 241)",
+  "Web Design": "rgb(255, 109, 0)",
+};
 export const CategoryTag = styled.div`
   display: inline-block;
   height: 30px;
@@ -59,23 +81,10 @@ export const CategoryTag = styled.div`
   border-radius: 24px;
   font-size: 14px;
   font-weight: 600;
-  opacity: ${({ active }) => (active ? 1 : 0.4)};
-  background-color: ${({ color }) =>
-    color === "orange"
-      ? "#ffe4c2"
-      : color === "green"
-      ? "#b4fdd1"
-      : color === "purple"
-      ? "#e9d4ff"
-      : "#94a6be"};
-  color: ${({ color }) =>
-    color === "orange"
-      ? "#ff6d00"
-      : color === "green"
-      ? "#06b16e"
-      : color === "purple"
-      ? "#9a48f1"
-      : "#ffffff"};
+
+  background-color: ${({ categoryName }) =>
+    categoryBgColors[categoryName] || "#94a6be"};
+  color: ${({ categoryName }) => categoryTextColors[categoryName] || "#fff"};
 `;
 
 // Статус

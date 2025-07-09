@@ -62,32 +62,37 @@ function PopnewcardComponent() {
             </S.Close>
             <S.Wrap>
               <S.Form onSubmit={handleCreate}>
-                <S.FormBlock>
-                  <S.Subttl htmlFor="formTitle">Название задачи</S.Subttl>
-                  <S.Input
-                    type="text"
-                    name="name"
-                    id="formTitle"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Введите название задачи..."
-                    autoFocus
-                    required
-                  />
-                </S.FormBlock>
-                <S.FormBlock>
-                  <S.Subttl as="label" htmlFor="textArea">
-                    Описание задачи
-                  </S.Subttl>
-                  <S.TextArea
-                    name="text"
-                    id="textArea"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Введите описание задачи..."
-                  />
-                </S.FormBlock>
-                <CalendarComponent date={date} setDate={setDate} />
+                <S.MidCreate>
+                  <S.TopCreate>
+                    <S.FormBlock>
+                      <S.Subttl htmlFor="formTitle">Название задачи</S.Subttl>
+                      <S.Input
+                        type="text"
+                        name="name"
+                        id="formTitle"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Введите название задачи..."
+                        autoFocus
+                        required
+                      />
+                    </S.FormBlock>
+                    <S.FormBlock>
+                      <S.Subttl as="label" htmlFor="textArea">
+                        Описание задачи
+                      </S.Subttl>
+                      <S.TextArea
+                        name="text"
+                        id="textArea"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Введите описание задачи..."
+                      />
+                    </S.FormBlock>
+                  </S.TopCreate>
+
+                  <CalendarComponent date={date} setDate={setDate} />
+                </S.MidCreate>
                 <S.Categories>
                   <S.CategoriesTitle>Категория</S.CategoriesTitle>
                   <S.CategoryThemes>
