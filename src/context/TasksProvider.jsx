@@ -1,7 +1,7 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useCallback } from "react";
 import { fetchTasks, createTask, editTask, deleteTask } from "../services/api";
 import { AuthContext } from "./AuthContext";
-import { TasksContext } from "./TasksContext"; // путь к твоему TasksContext
+import { TasksContext } from "./TasksContext";
 
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]);
@@ -9,32 +9,34 @@ export const TasksProvider = ({ children }) => {
   const [error, setError] = useState("");
   const { user } = useContext(AuthContext);
 
+  // Явная функция загрузки задач!
+  const reloadTasks = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const data = await fetchTasks({ token: user?.token });
+      setTasks(data);
+    } catch {
+      setError("Ошибка загрузки задач");
+      setTasks([]);
+    }
+    setLoading(false);
+  }, [user?.token]);
+
   useEffect(() => {
-    const loadTasks = async () => {
-      setLoading(true);
-      setError("");
-      try {
-        const data = await fetchTasks({ token: user?.token });
-        setTasks(data);
-      } catch {
-        setError("Ошибка загрузки задач");
-        setTasks([]);
-      }
-      setLoading(false);
-    };
     if (user?.token) {
-      loadTasks();
+      reloadTasks();
     } else {
       setTasks([]);
     }
-  }, [user?.token]);
+  }, [user?.token, reloadTasks]);
 
-  // Добавление задачи
+  // Добавление задачи (вариант 1: пусть только добавляет)
   const addNewTask = async ({ title, topic, status, description, date }) => {
     setLoading(true);
     setError("");
     try {
-      const newTasks = await createTask({
+      await createTask({
         token: user?.token,
         title,
         topic,
@@ -42,7 +44,8 @@ export const TasksProvider = ({ children }) => {
         description,
         date,
       });
-      setTasks(newTasks);
+      // После создания - перезагрузи задачи!
+      await reloadTasks();
     } catch {
       setError("Ошибка добавления задачи");
     }
@@ -61,7 +64,7 @@ export const TasksProvider = ({ children }) => {
     setLoading(true);
     setError("");
     try {
-      const newTasks = await editTask({
+      await editTask({
         token: user?.token,
         id,
         title,
@@ -70,7 +73,8 @@ export const TasksProvider = ({ children }) => {
         description,
         date,
       });
-      setTasks(newTasks);
+      // После редактирования - перезагрузи задачи!
+      await reloadTasks();
     } catch {
       setError("Ошибка редактирования задачи");
     }
@@ -82,11 +86,12 @@ export const TasksProvider = ({ children }) => {
     setLoading(true);
     setError("");
     try {
-      const newTasks = await deleteTask({
+      await deleteTask({
         token: user?.token,
         id,
       });
-      setTasks(newTasks);
+      // После удаления - перезагрузи задачи!
+      await reloadTasks();
     } catch {
       setError("Ошибка удаления задачи");
     }
@@ -103,9 +108,12 @@ export const TasksProvider = ({ children }) => {
         addNewTask,
         updateTask,
         removeTask,
+        fetchTasks: reloadTasks, // 🔥 Вот эту функцию обязательно пробрасывай!
       }}
     >
       {children}
     </TasksContext.Provider>
   );
 };
+
+export default TasksProvider;

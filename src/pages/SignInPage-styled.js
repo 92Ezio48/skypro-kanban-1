@@ -15,7 +15,7 @@ export const LoginContainer = styled.div`
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   text-align: center;
   width: 368px;
-  height: 329px;
+  max-height: 390px;
 `;
 
 export const LoginTitle = styled.h2`
@@ -36,17 +36,19 @@ export const LoginInput = styled.input`
   padding: 8px 10px 8px 10px;
   font-size: 14px;
   border-radius: 8px;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  border: 0.7px solid
+    ${({ $hasError }) =>
+      $hasError ? "rgb(248, 77, 77)" : "rgba(148, 166, 190, 0.4)"};
 `;
 
 export const LoginButton = styled.button`
   padding: 8px 10px 8px 10px;
   font-size: 14px;
   border-radius: 4px;
-  background: rgb(86, 94, 239);
-  color: #fff;
+  background: ${({ disabled }) => (disabled ? "#e1e4eb" : "rgb(86, 94, 239)")};
+  color: ${({ disabled }) => (disabled ? "#afb3bb" : "#fff")};
   border: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   font-weight: 600;
   margin: 20px 0px;
   width: 248px;
@@ -55,6 +57,9 @@ export const LoginButton = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  opacity: ${({ disabled }) => (disabled ? "0.7" : "1")};
+  pointer-events: ${({ disabled }) => (disabled ? "none" : "auto")};
+  transition: background 0.2s, color 0.2s, opacity 0.2s;
 `;
 
 export const RegisterText = styled.p`
@@ -90,10 +95,10 @@ export const StyledRegisterLink = styled(Link)`
   }
 `;
 export const ErrorText = styled.div`
-  color: #e74c3c;
-  margin-top: 14px;
-  margin-bottom: 8px;
-  font-size: 15px;
-  font-weight: 500;
+  color: rgb(248, 77, 77);
+  font-family: Arial;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 150%;
   text-align: center;
 `;

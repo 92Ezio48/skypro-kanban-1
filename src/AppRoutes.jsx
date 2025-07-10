@@ -7,36 +7,33 @@ import ProtectedRoute from "./pages/ProtectedRoutePage";
 import PopBrowseModal from "./pages/PopBrowsePage";
 import ExitConfirmModal from "./pages/ExitConfirmPage";
 import PopnewcardComponent from "./pages/PopNewCardPage";
+import TasksProvider from "./context/TasksProvider";
+import AuthProvider from "./context/AuthProvider"; // по умолчанию
 
-function AppRoutes({ isDarkTheme, setIsDarkTheme, isAuth, setIsAuth }) {
+function AppRoutes({ isDarkTheme, setIsDarkTheme }) {
   return (
-    <Routes>
-      <Route path="*" element={<NotFound />} />
-      <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
-      <Route path="/register" element={<SignUpPage />} />
-
-      {/* Обёртываем защищённую секцию в ProtectedRoute */}
-      <Route element={<ProtectedRoute isAuth={isAuth} />}>
-        <Route
-          path="/"
-          element={
-            <MainPage
-              isDarkTheme={isDarkTheme}
-              setIsDarkTheme={setIsDarkTheme}
-              setIsAuth={setIsAuth}
-            />
-          }
-        >
-          {/* Вложенные маршруты для модалок (через <Outlet /> в MainPage) */}
-          <Route path="card/:id" element={<PopBrowseModal />} />
-          <Route path="create" element={<PopnewcardComponent />} />
+    <TasksProvider>
+      <Routes>
+        <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={<SignInPage />} />
+        <Route path="/register" element={<SignUpPage />} />
+        <Route element={<ProtectedRoute />}>
           <Route
-            path="exit-confirm"
-            element={<ExitConfirmModal setIsAuth={setIsAuth} />}
-          />
+            path="/"
+            element={
+              <MainPage
+                isDarkTheme={isDarkTheme}
+                setIsDarkTheme={setIsDarkTheme}
+              />
+            }
+          >
+            <Route path="card/:id" element={<PopBrowseModal />} />
+            <Route path="create" element={<PopnewcardComponent />} />
+            <Route path="exit-confirm" element={<ExitConfirmModal />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </TasksProvider>
   );
 }
 

@@ -1,20 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import * as S from "./PopExit-styled";
 
-function PopexitComponent({ onClose, setIsAuth }) {
+function PopexitComponent() {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
 
   function handleLogout(e) {
     e.preventDefault();
-    setIsAuth(false);
-    localStorage.removeItem("token");
+    logout();
     navigate("/login", { replace: true });
-    if (onClose) onClose();
   }
 
   function handleStay(e) {
     e.preventDefault();
-    if (onClose) onClose();
+    navigate(-1); // Вернуться назад, закрыть модалку
   }
 
   return (
@@ -24,12 +25,12 @@ function PopexitComponent({ onClose, setIsAuth }) {
           <S.Title>
             <h2>Выйти из аккаунта?</h2>
           </S.Title>
-          <form action="#">
+          <form>
             <S.BtnGroup>
-              <S.YesBtn id="exitYes" onClick={handleLogout}>
+              <S.YesBtn type="button" id="exitYes" onClick={handleLogout}>
                 Да, выйти
               </S.YesBtn>
-              <S.NoBtn id="exitNo" onClick={handleStay}>
+              <S.NoBtn type="button" id="exitNo" onClick={handleStay}>
                 Нет, остаться
               </S.NoBtn>
             </S.BtnGroup>

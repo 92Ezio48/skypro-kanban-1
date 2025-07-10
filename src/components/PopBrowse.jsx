@@ -42,7 +42,7 @@ function PopBrowseComponent({
             <S.PopBrowseFHalf>
               <S.TopBlock>
                 <S.Title>{task.title}</S.Title>
-                <S.CategoryTag categoryName={category.name} $active>
+                <S.CategoryTag $categoryName={category.name} $active>
                   {category.name}
                 </S.CategoryTag>
               </S.TopBlock>

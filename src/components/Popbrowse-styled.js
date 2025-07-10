@@ -82,9 +82,9 @@ export const CategoryTag = styled.div`
   font-size: 14px;
   font-weight: 600;
 
-  background-color: ${({ categoryName }) =>
-    categoryBgColors[categoryName] || "#94a6be"};
-  color: ${({ categoryName }) => categoryTextColors[categoryName] || "#fff"};
+  background-color: ${({ $categoryName }) =>
+    categoryBgColors[$categoryName] || "#94a6be"};
+  color: ${({ $categoryName }) => categoryTextColors[$categoryName] || "#fff"};
 `;
 
 // Статус

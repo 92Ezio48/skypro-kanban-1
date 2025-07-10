@@ -5,21 +5,21 @@ import { AuthContext } from "../context/AuthContext";
 
 function SignInPage() {
   const navigate = useNavigate();
-  const [userLogin, setUserLogin] = useState(""); // переименовал!
+  const { login } = useContext(AuthContext);
+
+  const [userLogin, setUserLogin] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
-  const { login } = useContext(AuthContext); // функцию логина можно оставить "login"
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      await login({ login: userLogin, password }); // передаём правильно
+      await login({ login: userLogin, password }); // вызов из AuthContext!
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Ошибка при входе.");
     }
   };
 
@@ -33,20 +33,28 @@ function SignInPage() {
             placeholder="Эл. почта"
             autoComplete="username"
             value={userLogin}
-            onChange={(e) => setUserLogin(e.target.value)}
+            onChange={(e) => {
+              setUserLogin(e.target.value);
+              if (error) setError(null);
+            }}
             required
+            $hasError={!!error}
           />
           <S.LoginInput
             type="password"
             placeholder="Пароль"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (error) setError(null);
+            }}
             required
+            $hasError={!!error}
           />
+          {error && <S.ErrorText>{error}</S.ErrorText>}
           <S.LoginButton type="submit">Войти</S.LoginButton>
         </S.LoginForm>
-        {error && <S.ErrorText>{error}</S.ErrorText>}
         <S.RegisterText>
           Нужно зарегистрироваться?{" "}
           <S.StyledRegisterLink as={Link} to="/register">

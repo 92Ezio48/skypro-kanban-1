@@ -144,7 +144,8 @@ export async function registerUser({ login, name, password }) {
     return response.data.user;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message || error.message || "Ошибка регистрации"
+      error.response?.data?.message ||
+        "Введенные вами данные не корректны. Чтобы завершить регистрацию, заполните все поля в форме."
     );
   }
 }
@@ -153,10 +154,7 @@ export async function loginUser({ login, password }) {
   try {
     const response = await axios.post(
       "https://wedev-api.sky.pro/api/user/login",
-      {
-        login,
-        password,
-      },
+      { login, password },
       {
         headers: {
           "Content-Type": "",
@@ -166,10 +164,9 @@ export async function loginUser({ login, password }) {
     // Сервер возвращает { user: { ... } }
     return response.data.user;
   } catch (error) {
-    // Если введен неправильный логин или пароль — сервер вернёт 400 ошибку
     throw new Error(
       error.response?.data?.message ||
-        "Ошибка авторизации. Проверьте логин и пароль."
+        "Введенные вами данные не распознаны. Проверьте свой логин и пароль и повторите попытку входа."
     );
   }
 }

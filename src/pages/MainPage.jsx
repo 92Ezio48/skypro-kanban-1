@@ -1,11 +1,11 @@
+import React, { useContext } from "react";
+import { useNavigate, Outlet } from "react-router-dom";
 import HeaderComponent from "../components/Header.jsx";
 import ColumnComponent from "../components/Column";
-import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
 import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
-import { fetchTasks } from "../services/api.js";
-import { TasksProvider } from "../context/TasksProvider.jsx";
+import { TasksContext } from "../context/TasksContext";
+import { AuthContext } from "../context/AuthContext";
 
 const statuses = [
   "Без статуса",
@@ -16,55 +16,45 @@ const statuses = [
 ];
 
 function MainPage({ isDarkTheme, setIsDarkTheme }) {
-  const [tasks, setTasks] = useState([]);
+  // Теперь достаём fetchTasks из TasksContext!
+  const { tasks, loading, error, fetchTasks } = useContext(TasksContext);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  // Загружаем задачи один раз и при необходимости перезагрузки
-  const loadTasks = async () => {
-    try {
-      const token = "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck";
-      const fetchedTasks = await fetchTasks({ token }); // корректно брать токен отсюда!
-      setTasks(fetchedTasks);
-    } catch (error) {
-      console.error(error);
+  // Проверка авторизации
+  React.useEffect(() => {
+    if (!user || !user.token) {
+      navigate("/login");
     }
-  };
+  }, [user, navigate]);
 
-  // Темная тема
-  useEffect(() => {
-    if (isDarkTheme) {
-      document.body.classList.add("dark-theme");
-    } else {
-      document.body.classList.remove("dark-theme");
-    }
-  }, [isDarkTheme]);
-
-  // Загружаем задачи при маунте
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
-  // Коллбек для PopnewcardComponent
-  const handleTaskCreated = () => {
-    loadTasks();
-  };
+  // Фильтруем задачи конкретного пользователя
+  const filteredTasks = tasks.filter((task) => task.userId === user.id);
 
   const columns = statuses.map((status) => ({
     title: status,
-    cards: tasks.filter((card) => card.status === status),
+    cards: filteredTasks.filter((card) => card.status === status),
   }));
 
   return (
-    <TasksProvider>
-      <>
-        <HeaderComponent
-          isDarkTheme={isDarkTheme}
-          setIsDarkTheme={setIsDarkTheme}
-        />
-        <S.MainComponent $isDarkTheme={isDarkTheme}>
-          <S.Container $isDarkTheme={isDarkTheme}>
-            <S.Mainblock $isDarkTheme={isDarkTheme}>
-              <MainContent>
-                {columns.map((col) => (
+    <>
+      <HeaderComponent
+        isDarkTheme={isDarkTheme}
+        setIsDarkTheme={setIsDarkTheme}
+      />
+
+      {/* 👉🏻 Прокидываем fetchTasks в Outlet через context, чтобы PopnewcardComponent мог вызвать его */}
+      <Outlet context={{ onTaskCreated: fetchTasks }} />
+
+      <S.MainComponent $isDarkTheme={isDarkTheme}>
+        <S.Container $isDarkTheme={isDarkTheme}>
+          <S.Mainblock $isDarkTheme={isDarkTheme}>
+            <MainContent>
+              {loading && <div>Загрузка задач...</div>}
+              {error && <div>{error}</div>}
+              {!loading &&
+                !error &&
+                columns.map((col) => (
                   <ColumnComponent
                     key={col.title}
                     title={col.title}
@@ -72,14 +62,11 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
                     isDarkTheme={isDarkTheme}
                   />
                 ))}
-              </MainContent>
-            </S.Mainblock>
-          </S.Container>
-        </S.MainComponent>
-        <Outlet context={{ onTaskCreated: handleTaskCreated }} />
-        {/* outletContext позволяет вложенной странице получить функцию handleTaskCreated */}
-      </>
-    </TasksProvider>
+            </MainContent>
+          </S.Mainblock>
+        </S.Container>
+      </S.MainComponent>
+    </>
   );
 }
 

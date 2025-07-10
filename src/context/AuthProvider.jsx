@@ -1,24 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AuthContext } from "./AuthContext";
-import { checkLs } from "./checkLs";
 import { loginUser } from "../services/api";
+
 const AuthProvider = ({ children }) => {
-  // checkLs проверяет лс на наличие ключа userInfo
-  const [user, setUser] = useState(checkLs()); // Здесь будет лежать инфа о юзере
-
-  useEffect(() => {
-    // А тут мы проверяем ЛС, когда приложение запускается
+  // Читаем userInfo из localStorage только при монтировании
+  const [user, setUser] = useState(() => {
     try {
-      const storedUser = localStorage.getItem("userInfo");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    } catch (error) {
-      console.error("Ошибка при загрузке данных из localStorage:", error);
+      const stored = localStorage.getItem("userInfo");
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      return null;
     }
-  }, []);
+  });
 
-  // Обновляем данные о пользователе и сохраняем в лс
+  // Ф-я для обновления и localStorage, и состояния
   const updateUserInfo = (userData) => {
     setUser(userData);
     if (userData) {
@@ -28,20 +23,28 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Логин: вызывает loginUser и сохраняет нормализованные данные
   const login = async ({ login, password }) => {
     const userData = await loginUser({ login, password });
-    updateUserInfo(userData);
-    return userData;
+    const normalizedUser = {
+      id: userData.id || userData._id,
+      name: userData.name,
+      login: userData.login,
+      email: userData.email, // если приходит, иначе см. login
+      token: userData.token,
+    };
+    updateUserInfo(normalizedUser);
+    return normalizedUser;
   };
 
+  // Logout- очищаем стейт и localStorage
   const logout = () => {
     updateUserInfo(null);
     return true;
   };
-  // В сам провайдер нужно обязательно прокинуть те значения,
-  // которые мы хотим использовать в разных частях приложения
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, updateUserInfo }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
