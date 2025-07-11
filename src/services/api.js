@@ -144,7 +144,8 @@ export async function registerUser({ login, name, password }) {
     return response.data.user;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message ||
+      error.response?.data?.error ||
+        error.response?.data?.message ||
         "Введенные вами данные не корректны. Чтобы завершить регистрацию, заполните все поля в форме."
     );
   }

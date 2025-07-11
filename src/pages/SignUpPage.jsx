@@ -8,94 +8,102 @@ const SignUpPage = () => {
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [globalError, setGlobalError] = useState("");
+  const [wasSubmitted, setWasSubmitted] = useState(false);
+  const [loginExistsError, setLoginExistsError] = useState(false);
+
+  const ERROR_REQUIRED =
+    "Введённые вами данные не корректны. Чтобы завершить регистрацию, заполните все поля в форме.";
+  const ERROR_INVALID =
+    "Введённые вами данные не корректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку.";
 
   const validateEmail = (v) => /\S+@\S+\.\S+/.test(v) && v.length >= 2;
-  const validatePassword = (v) => v.length >= 3;
 
-  // Проверка ошибок для текущих значений формы
-  const getError = () => {
-    if (!name.trim() || !login.trim() || !password) {
-      return "Введённые вами данные некорректны. Чтобы завершить регистрацию, заполните все поля в форме.";
-    }
-    if (!validateEmail(login)) {
-      return "Введённые вами данные некорректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку.";
-    }
-    if (!validatePassword(password)) {
-      return "Введённые вами данные некорректны. Чтобы завершить регистрацию, введите данные корректно и повторите попытку.";
-    }
-    return null;
-  };
+  const nameError = name.trim().length < 3;
+  const loginError = login.trim() === "" || !validateEmail(login);
+  const passwordError = password.length < 3;
 
-  // Формально: все поля не пустые и email валиден и пароль >=6
-  const isFormValid =
-    name.trim().length > 0 &&
-    login.trim().length >= 2 &&
-    validateEmail(login) &&
-    validatePassword(password);
+  const isFormValid = !nameError && !loginError && !passwordError;
+
+  function getGlobalError() {
+    if (nameError || loginError || passwordError) {
+      if (name.trim() === "" || login.trim() === "" || password === "") {
+        return ERROR_REQUIRED;
+      }
+      return ERROR_INVALID;
+    }
+    return "";
+  }
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const currentError = getError();
-    setError(currentError);
+    setWasSubmitted(true);
+    setLoginExistsError(false);
 
-    if (currentError) return;
-
+    if (!isFormValid) {
+      setGlobalError(getGlobalError());
+      return;
+    }
     try {
       await registerUser({ login, name, password });
       navigate("/login");
     } catch (err) {
-      setError(err.message || "Ошибка регистрации");
+      // Если ошибка про существующий логин/email — выделяем поле
+      if (
+        (err.message && err.message.toLowerCase().includes("логин")) ||
+        (err.message && err.message.toLowerCase().includes("существует"))
+      ) {
+        setLoginExistsError(true);
+      }
+      setGlobalError(err.message);
     }
   };
 
-  // Инпуты в error если error есть (точно как в логине)
-  const inputError = !!error;
+  // Важно: для login очистка существует ошибки
+  function handleChange(fn, clearLoginError = false) {
+    return (e) => {
+      fn(e.target.value);
+      setGlobalError("");
+      if (clearLoginError) setLoginExistsError(false);
+    };
+  }
 
   return (
     <S.LoginWrapper>
       <S.LoginContainer>
         <S.LoginTitle>Регистрация</S.LoginTitle>
+
         <S.LoginForm onSubmit={handleRegister} autoComplete="off">
           <S.LoginInput
+            $hasError={wasSubmitted && nameError}
             type="text"
             placeholder="Имя"
             value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-              if (error) setError(null);
-            }}
-            $hasError={inputError}
+            onChange={handleChange(setName)}
+            autoComplete="off"
           />
           <S.LoginInput
+            $hasError={(wasSubmitted && loginError) || loginExistsError}
             type="text"
             placeholder="Эл. почта"
             autoComplete="username"
             value={login}
-            onChange={(e) => {
-              setLogin(e.target.value);
-              if (error) setError(null);
-            }}
-            $hasError={inputError}
+            onChange={handleChange(setLogin, true)}
           />
           <S.LoginInput
+            $hasError={wasSubmitted && passwordError}
             type="password"
             placeholder="Пароль"
             autoComplete="new-password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (error) setError(null);
-            }}
-            $hasError={inputError}
+            onChange={handleChange(setPassword)}
           />
-
-          {error && <S.ErrorText>{error}</S.ErrorText>}
-
-          <S.LoginButton type="submit" disabled={!!error || !isFormValid}>
+          {globalError && <S.ErrorText>{globalError}</S.ErrorText>}
+          <S.LoginButton type="submit" disabled={!isFormValid && !wasSubmitted}>
             Зарегистрироваться
           </S.LoginButton>
         </S.LoginForm>
+
         <S.RegisterText $direction="row">
           Уже есть аккаунт?{" "}
           <S.StyledRegisterLink as={Link} to="/login">

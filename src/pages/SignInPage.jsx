@@ -9,18 +9,63 @@ function SignInPage() {
 
   const [userLogin, setUserLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
+  const [globalError, setGlobalError] = useState("");
+  const [loginError, setLoginError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError(null);
+
+    // Сброс ошибок
+    setLoginError(false);
+    setPasswordError(false);
+    setGlobalError("");
 
     try {
-      await login({ login: userLogin, password }); // вызов из AuthContext!
+      await login({ login: userLogin, password });
       navigate("/");
     } catch (err) {
-      setError(err.message || "Ошибка при входе.");
+      // error message может быть из сервера (например, "Неверный логин или пароль")
+      const errMsg = err.message || "Ошибка при входе.";
+
+      // Разделяем виды ошибок по содержанию сообщения:
+      // Если может быть конкретика (например, что не так – пароль или логин), распарси:
+      const isLoginError =
+        errMsg.toLowerCase().includes("логин") ||
+        errMsg.toLowerCase().includes("user");
+      const isPasswordError =
+        errMsg.toLowerCase().includes("пароль") ||
+        errMsg.toLowerCase().includes("password");
+
+      // Во многих API сообщение общее – "неверный логин или пароль"
+      // тогда выделяем оба поля
+      if (isLoginError && !isPasswordError) {
+        setLoginError(true);
+      } else if (!isLoginError && isPasswordError) {
+        setPasswordError(true);
+      } else if (isLoginError && isPasswordError) {
+        setLoginError(true);
+        setPasswordError(true);
+      } else {
+        // Если нет точности – красим оба поля (или только логин по желанию)
+        setLoginError(true);
+        setPasswordError(true);
+      }
+      setGlobalError(errMsg);
     }
+  };
+
+  // Сброс ошибок при вводе
+  const handleLoginChange = (e) => {
+    setUserLogin(e.target.value);
+    setLoginError(false);
+    setGlobalError("");
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setPasswordError(false);
+    setGlobalError("");
   };
 
   return (
@@ -33,26 +78,20 @@ function SignInPage() {
             placeholder="Эл. почта"
             autoComplete="username"
             value={userLogin}
-            onChange={(e) => {
-              setUserLogin(e.target.value);
-              if (error) setError(null);
-            }}
+            onChange={handleLoginChange}
             required
-            $hasError={!!error}
+            $hasError={loginError}
           />
           <S.LoginInput
             type="password"
             placeholder="Пароль"
             autoComplete="current-password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (error) setError(null);
-            }}
+            onChange={handlePasswordChange}
             required
-            $hasError={!!error}
+            $hasError={passwordError}
           />
-          {error && <S.ErrorText>{error}</S.ErrorText>}
+          {globalError && <S.ErrorText>{globalError}</S.ErrorText>}
           <S.LoginButton type="submit">Войти</S.LoginButton>
         </S.LoginForm>
         <S.RegisterText>

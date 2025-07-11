@@ -33,12 +33,18 @@ export const LoginForm = styled.form`
 export const LoginInput = styled.input`
   width: 248px;
   height: 30px;
-  padding: 8px 10px 8px 10px;
+  padding: 8px 10px;
   font-size: 14px;
   border-radius: 8px;
-  border: 0.7px solid
+  border: 2px solid
     ${({ $hasError }) =>
-      $hasError ? "rgb(248, 77, 77)" : "rgba(148, 166, 190, 0.4)"};
+      $hasError ? "rgb(248,77,77)" : "rgba(148,166,190,0.4)"};
+  box-sizing: border-box;
+
+  &:focus {
+    border: 2px solid
+      ${({ $hasError }) => ($hasError ? "rgb(248,77,77)" : "#6898FF")};
+  }
 `;
 
 export const LoginButton = styled.button`
