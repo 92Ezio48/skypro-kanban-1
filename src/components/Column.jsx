@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
-import CardComponent from "./Card";
-import CardsLoader from "../CardsLoader";
+import React from "react";
+import CardComponent from "./Card"; // default экспорт!
+import CardsLoader from "../CardsLoader"; // default экспорт!
 import { useNavigate } from "react-router-dom";
-import * as S from "./Column-styled";
+import * as S from "./Column-styled"; // если это styled-components
 
-function ColumnComponent({ title, cards, isDarkTheme }) {
-  const [loading, setLoading] = useState(true);
+function ColumnComponent({ title, cards, isDarkTheme, loading }) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, [cards]);
 
   const handleBrowseClick = (card) => {
     navigate(`/card/${card._id}`);
@@ -24,8 +18,13 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
       </S.ColumnTitle>
       <S.CardsBlock>
         {loading ? (
-          <CardsLoader />
+          <>
+            <CardsLoader isDarkTheme={isDarkTheme} />
+            <CardsLoader isDarkTheme={isDarkTheme} />
+            <CardsLoader isDarkTheme={isDarkTheme} />
+          </>
         ) : (
+          cards.length > 0 &&
           cards.map((card) => (
             <CardComponent
               key={card._id}
@@ -39,7 +38,6 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
           ))
         )}
       </S.CardsBlock>
-      {/* PopBrowseComponent теперь должен быть на уровне роутинга */}
     </S.ColumnWrapper>
   );
 }

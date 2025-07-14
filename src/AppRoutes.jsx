@@ -14,9 +14,15 @@ function AppRoutes({ isDarkTheme, setIsDarkTheme }) {
   return (
     <TasksProvider>
       <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/login" element={<SignInPage />} />
-        <Route path="/register" element={<SignUpPage />} />
+        <Route path="*" element={<NotFound isDarkTheme={isDarkTheme} />} />
+        <Route
+          path="/login"
+          element={<SignInPage isDarkTheme={isDarkTheme} />}
+        />
+        <Route
+          path="/register"
+          element={<SignUpPage isDarkTheme={isDarkTheme} />}
+        />
         <Route element={<ProtectedRoute />}>
           <Route
             path="/"
@@ -27,9 +33,18 @@ function AppRoutes({ isDarkTheme, setIsDarkTheme }) {
               />
             }
           >
-            <Route path="card/:id" element={<PopBrowseModal />} />
-            <Route path="create" element={<PopnewcardComponent />} />
-            <Route path="exit-confirm" element={<ExitConfirmModal />} />
+            <Route
+              path="card/:id"
+              element={<PopBrowseModal isDarkTheme={isDarkTheme} />}
+            />
+            <Route
+              path="create"
+              element={<PopnewcardComponent isDarkTheme={isDarkTheme} />}
+            />
+            <Route
+              path="exit-confirm"
+              element={<ExitConfirmModal isDarkTheme={isDarkTheme} />}
+            />
           </Route>
         </Route>
       </Routes>

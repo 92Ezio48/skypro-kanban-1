@@ -4,6 +4,9 @@ export const API_URL = "https://wedev-api.sky.pro/api/kanban";
 // Получение задач
 export async function fetchTasks({ token }) {
   try {
+    // Искусственная задержка (1.5 сек)
+    await new Promise((res) => setTimeout(res, 1500));
+
     const data = await axios.get(API_URL, {
       headers: {
         Authorization: "Bearer " + token,
@@ -11,7 +14,7 @@ export async function fetchTasks({ token }) {
     });
     return data.data.tasks;
 
-    // когда работаем с axios, не забываем, что результат лежит в ключе datа
+    // когда работаем с axios, не забываем, что результат лежит в ключе data
   } catch (error) {
     throw new Error(error.message);
   }

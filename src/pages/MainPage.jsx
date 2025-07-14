@@ -7,6 +7,15 @@ import { MainContent } from "../GlobalStyles.js";
 import { TasksContext } from "../context/TasksContext";
 import { AuthContext } from "../context/AuthContext";
 
+// Слева — как сервер, справа — как у тебя на канбане:
+const STATUS_MAP = {
+  none: "Без статуса",
+  todo: "Нужно сделать",
+  "in progress": "В работе",
+  testing: "Тестирование",
+  done: "Готово",
+};
+
 const statuses = [
   "Без статуса",
   "Нужно сделать",
@@ -16,7 +25,6 @@ const statuses = [
 ];
 
 function MainPage({ isDarkTheme, setIsDarkTheme }) {
-  // Теперь достаём fetchTasks из TasksContext!
   const { tasks, loading, error, fetchTasks } = useContext(TasksContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -28,8 +36,14 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
     }
   }, [user, navigate]);
 
+  // 🎯 Маппим статусы задач
+  const mappedTasks = tasks.map((task) => ({
+    ...task,
+    status: STATUS_MAP[task.status] || "Без статуса",
+  }));
+
   // Фильтруем задачи конкретного пользователя
-  const filteredTasks = tasks.filter((task) => task.userId === user.id);
+  const filteredTasks = mappedTasks.filter((task) => task.userId === user.id);
 
   const columns = statuses.map((status) => ({
     title: status,
@@ -42,26 +56,24 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
         isDarkTheme={isDarkTheme}
         setIsDarkTheme={setIsDarkTheme}
       />
-
-      {/* 👉🏻 Прокидываем fetchTasks в Outlet через context, чтобы PopnewcardComponent мог вызвать его */}
-      <Outlet context={{ onTaskCreated: fetchTasks }} />
-
+      {/* Передаём обновление задач во все модалки */}
+      <Outlet context={{ onTasksChanged: fetchTasks }} />
       <S.MainComponent $isDarkTheme={isDarkTheme}>
         <S.Container $isDarkTheme={isDarkTheme}>
           <S.Mainblock $isDarkTheme={isDarkTheme}>
             <MainContent>
-              {loading && <div>Загрузка задач...</div>}
+              <S.ColumnsWrapper>
               {error && <div>{error}</div>}
-              {!loading &&
-                !error &&
-                columns.map((col) => (
-                  <ColumnComponent
-                    key={col.title}
-                    title={col.title}
-                    cards={col.cards}
-                    isDarkTheme={isDarkTheme}
-                  />
-                ))}
+              {columns.map((col) => (
+                <ColumnComponent
+                  key={col.title}
+                  title={col.title}
+                  cards={col.cards}
+                  isDarkTheme={isDarkTheme}
+                  loading={loading} // 👈 пробрасывай глобальный loading всем колонкам!
+                />
+              ))}
+              </S.ColumnsWrapper>
             </MainContent>
           </S.Mainblock>
         </S.Container>

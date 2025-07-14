@@ -26,14 +26,14 @@ function PopexitComponent() {
             <h2>Выйти из аккаунта?</h2>
           </S.Title>
           <form>
-            <S.BtnGroup>
+            <S.BtnGroupEx>
               <S.YesBtn type="button" id="exitYes" onClick={handleLogout}>
                 Да, выйти
               </S.YesBtn>
               <S.NoBtn type="button" id="exitNo" onClick={handleStay}>
                 Нет, остаться
               </S.NoBtn>
-            </S.BtnGroup>
+            </S.BtnGroupEx>
           </form>
         </S.Block>
       </S.Container>

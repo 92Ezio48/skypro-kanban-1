@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as S from "./SignInPage-styled";
 import { AuthContext } from "../context/AuthContext";
 
-function SignInPage() {
+function SignInPage({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
 
@@ -69,9 +69,9 @@ function SignInPage() {
   };
 
   return (
-    <S.LoginWrapper>
-      <S.LoginContainer>
-        <S.LoginTitle>Вход</S.LoginTitle>
+    <S.LoginWrapper $isDarkTheme={isDarkTheme} $setIsDarkTheme={setIsDarkTheme}>
+      <S.LoginContainer $isDarkTheme={isDarkTheme}>
+        <S.LoginTitle $isDarkTheme={isDarkTheme}>Вход</S.LoginTitle>
         <S.LoginForm onSubmit={handleLogin}>
           <S.LoginInput
             type="text"
@@ -81,6 +81,7 @@ function SignInPage() {
             onChange={handleLoginChange}
             required
             $hasError={loginError}
+            $isDarkTheme={isDarkTheme}
           />
           <S.LoginInput
             type="password"
@@ -90,6 +91,7 @@ function SignInPage() {
             onChange={handlePasswordChange}
             required
             $hasError={passwordError}
+            $isDarkTheme={isDarkTheme}
           />
           {globalError && <S.ErrorText>{globalError}</S.ErrorText>}
           <S.LoginButton type="submit">Войти</S.LoginButton>

@@ -25,20 +25,29 @@ const Modal = styled.div`
   min-width: 320px;
   text-align: center;
   box-shadow: 0 6px 32px rgba(47, 76, 133, 0.16);
+  @media (max-width: 600px) {
+    padding: 50px 20px 30px 20px;
+    height: 240px;
+  }
 `;
 
 // Можно контролировать цвета кнопок по теме, если захочешь — добавь проп $isDarkTheme
 
 const ButtonBlock = styled.div`
   display: flex;
-  gap: 7px;
+  gap: 10px;
   margin-top: 30px;
   justify-content: center;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const YesBtn = styled.button`
-  width: 178px;
-  height: 30px;
+  width: 304px;
+  height: 40px;
   border-radius: 4px;
   background-color: #565eef;
   color: #ffffff;
@@ -54,8 +63,8 @@ const YesBtn = styled.button`
 `;
 
 const NoBtn = styled.button`
-  width: 178px;
-  height: 30px;
+  width: 304px;
+  height: 40px;
   border-radius: 4px;
   background-color: #ffffff;
   color: #565eef;

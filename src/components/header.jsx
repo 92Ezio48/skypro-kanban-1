@@ -30,6 +30,7 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
             >
               Создать новую задачу
             </S.NewTaskButton>
+            <S.FixedCreateTaskBtn>Создать новую задачу</S.FixedCreateTaskBtn>
             <S.UserSpan
               $isDarkTheme={isDarkTheme}
               onClick={() => setIsUserPopupOpen((open) => !open)}

@@ -41,13 +41,20 @@ export const PopBrowseContainer = styled.div`
 // Белый блок
 export const PopBrowseBlock = styled.div`
   margin: 0 auto;
-  background-color: #ffffff;
+  background-color: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "#1a2230" : " #eaeef6;"};
   max-width: 630px;
   width: 100%;
   padding: 40px 30px 38px;
   border-radius: 10px;
-  border: 0.7px solid #d4dbe5;
+  border: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "0.7px solid #222e3a" : "0.7px solid #d4dbe5"};
   position: relative;
+  @media (max-width: 600px) {
+    max-width: 370px;
+    padding: 22px 7px 28px;
+    min-width: 0;
+  }
 `;
 
 // Заголовок и тег
@@ -56,10 +63,24 @@ export const TopBlock = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
+  /* 👉 Модификатор для статуса  */
+  ${({ $TopBlockStatus }) =>
+    $TopBlockStatus &&
+    `
+    gap: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    `}
+  @media (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
 `;
 
 export const Title = styled.h3`
-  color: #000;
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
   font-size: 20px;
   font-weight: 600;
   line-height: 24px;
@@ -81,7 +102,10 @@ export const CategoryTag = styled.div`
   border-radius: 24px;
   font-size: 14px;
   font-weight: 600;
-
+  @media (max-width: 600px) {
+    margin-bottom: 6px;
+    padding: 8px 12px;
+  }
   background-color: ${({ $categoryName }) =>
     categoryBgColors[$categoryName] || "#94a6be"};
   color: ${({ $categoryName }) => categoryTextColors[$categoryName] || "#fff"};
@@ -102,6 +126,9 @@ export const StatusTitle = styled.p`
 export const StatusThemes = styled.div`
   display: flex;
   flex-wrap: wrap;
+  @media (max-width: 600px) {
+    gap: 4px;
+  }
 `;
 
 export const StatusTheme = styled.div`
@@ -123,13 +150,16 @@ export const DescriptionForm = styled.form`
   max-width: 370px;
   width: 100%;
   margin-bottom: 20px;
+  @media (max-width: 600px) {
+    max-width: 100%;
+  }
 `;
 export const DescBlock = styled.div`
   display: flex;
   flex-direction: column;
 `;
 export const DescLabel = styled.label`
-  color: #000;
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
   font-size: 14px;
   font-weight: 600;
 `;
@@ -137,7 +167,8 @@ export const DescriptionArea = styled.textarea`
   width: 100%;
   outline: none;
   padding: 14px;
-  background: #eaeef6;
+  background-color: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "#1a2230" : " #eaeef6;"};
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   border-radius: 8px;
   font-size: 14px;
@@ -146,11 +177,30 @@ export const DescriptionArea = styled.textarea`
   margin-top: 14px;
   height: 200px;
   resize: vertical;
-  color: #333;
+  @media (max-width: 600px) {
+    font-size: 14px;
+    min-width: 0;
+    padding: 12px 7px;
+    height: 35px;
+  }
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
   &::placeholder {
-    color: #94a6be;
+    color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
     font-size: 14px;
   }
+  /* 👉 Модификатор для поля-названия (input) */
+  ${({ $titleInput }) =>
+    $titleInput &&
+    `
+      height: 40px;
+      min-height: 32px;
+      max-height: 52px;
+      font-size: 24px;
+      font-weight: 600;
+      padding: 4px 10px;
+      margin-top: 0;
+      resize: none;
+    `}
 `;
 
 // Кнопки
@@ -158,12 +208,20 @@ export const BtnGroup = styled.div`
   display: flex;
   gap: 8px;
   margin-bottom: 10px;
+  justify-content: space-between;
+  @media (max-width: 600px) {
+    width: 100%;
+    gap: 6px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
 `;
 
 export const BrowseButton = styled.button`
   height: 30px;
   padding: 0 14px;
-  margin-left: ${({ $variant }) => ($variant === "bg" ? `169px` : `0px`)};
+  margin-left: ${({ $marginLeft }) => $marginLeft || "0"};
   border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
@@ -171,15 +229,48 @@ export const BrowseButton = styled.button`
   outline: none;
   white-space: nowrap;
   cursor: pointer;
-  background: ${({ $variant }) =>
-    $variant === "bg" ? "#565eef" : "transparent"};
-  color: ${({ $variant }) => ($variant === "bg" ? "#fff" : "#565eef")};
-  border: ${({ $variant }) =>
-    $variant === "bor" ? "0.7px solid #565eef" : "none"};
-  transition: background 0.18s, color 0.18s;
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-bottom: 6px;
+  }
+
+  /* --- Цвет фона --- */
+  background: ${({ $variant, $isDarkTheme }) => {
+    if ($variant === "bg") {
+      return $isDarkTheme ? "#414584" : "#565eef"; // Тёмно-синий для тёмной темы
+    }
+    return "transparent";
+  }};
+
+  /* --- Цвет текста --- */
+  color: ${({ $variant, $isDarkTheme }) => {
+    if ($variant === "bg") return "#fff";
+    return $isDarkTheme ? "#fff" : "#565eef";
+  }};
+
+  /* --- Граница --- */
+  border: ${({ $variant, $isDarkTheme }) => {
+    if ($variant === "bor") {
+      return $isDarkTheme
+        ? "0.7px solid #444c5e" // Более тёмная рамка
+        : "0.7px solid #565eef";
+    }
+    return "none";
+  }};
+
+  transition: background 0.18s, color 0.18s, border 0.18s;
+
   &:hover {
-    background: #33399b;
+    background: ${({ $variant }) =>
+      $variant === "bor" ? "#33399b" : "#4e51a3"};
     color: #fff;
+    border: ${({ $variant, $isDarkTheme }) => {
+      if ($variant === "bor") {
+        return $isDarkTheme ? "0.7px solid #fff" : "0.7px solid #fff";
+      }
+      return "none";
+    }};
   }
 `;
 export const PopBrowseGeneral = styled.div``;
@@ -187,4 +278,131 @@ export const PopBrowseFHalf = styled.div``;
 export const MidBlock = styled.div`
   display: flex;
   gap: 21px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 15px;
+  }
+`;
+export const TopHalfBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const StatusBadge = styled.span`
+  display: flex;
+  height: 30px;
+  margin-left: ${({ $editMargin, $noMargin }) => {
+    if ($editMargin) return "40px"; // тут свой кастомный марджин для страницы редактирования
+    if ($noMargin) return "0px";
+    return "169px"; // дефолтный марджин
+  }};
+  padding: 8px 20px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 10px;
+  letter-spacing: 0%;
+  text-align: center;
+  background-color: rgb(148, 166, 190);
+  color: ${({ $categoryName }) => categoryTextColors[$categoryName] || "#fff"};
+  align-items: center;
+`;
+export const EditStatusRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 16px 0 24px 0;
+  flex-direction: column;
+`;
+
+export const StatusButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  @media (max-width: 600px) {
+    justify-content: flex-start;
+  }
+`;
+
+export const StatusChoiceButton = styled.button`
+  all: unset; // <-- сбрасывает ВСЁ (почти всегда это именно то, что надо)
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 0px 15px;
+  border-radius: 24px;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: Roboto, Arial, sans-serif;
+  justify-content: center;
+
+  border: none;
+  margin: 0;
+  cursor: pointer;
+  background: ${({ $active, $variant, $isDarkTheme }) => {
+    if ($active) {
+      // Цвет активной кнопки: свой для тёмной и светлой темы
+      return $isDarkTheme ? "#494b5b" : "#C7C7C7";
+    }
+    if ($variant === "bg") {
+      // Цвет bg-кнопки: основной для темы
+      return $isDarkTheme ? "#414584" : "#565eef";
+    }
+    return "transparent";
+  }};
+  color: ${({ $active, $isDarkTheme }) => {
+    if ($active) {
+      // Активное: почти чёрный в светлой, почти белый/синий в тёмной теме
+      return $isDarkTheme ? "#fff" : "#222";
+    }
+    // Неактивное: посветлее в светлой, такой же фиолетовый в темной
+    return $isDarkTheme ? "rgb(148, 166, 190)" : "#606D80";
+  }};
+  box-shadow: 0 0 0 1px #c7c7c7 inset;
+  transition: background 0.15s, color 0.15s;
+
+  &:not(:last-child) {
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+`;
+
+export const EditMainRow = styled.div`
+  display: flex;
+  gap: 21px;
+  align-items: stretch;
+  justify-content: space-between;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 14px;
+  }
+`;
+
+export const EditDescCol = styled.div`
+  width: 100%;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+`;
+
+export const EditCalendarCol = styled.div``;
+export const BtnLeftGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  gap: 8px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+  }
 `;

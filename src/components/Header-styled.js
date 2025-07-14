@@ -5,7 +5,11 @@ export const StyledHeader = styled.header`
   width: 100%;
   margin: 0 auto;
   background: ${({ $isDarkTheme }) =>
-    $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255);"};
+    $isDarkTheme ? "rgb(32, 32, 44);" : "rgb(255, 255, 255);"};
+  @media (max-width: 600px) {
+    // тонкая линия (как в айфоне)
+    border-bottom: 0.5px solid #ececec;
+  }
 `;
 // Контейнер
 export const HeaderBlock = styled.div`
@@ -18,11 +22,18 @@ export const HeaderBlock = styled.div`
   top: 0;
   left: 0;
   padding: 0 10px;
+  @media (max-width: 600px) {
+    height: 52px;
+    padding: 0 4px;
+  }
 `;
 // Логотип
 export const LogoWrap = styled.div`
   & img {
     width: 85px;
+    @media (max-width: 600px) {
+      width: 68px;
+    }
   }
 `;
 // Навигация
@@ -33,6 +44,10 @@ export const NavWrap = styled.nav`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (max-width: 600px) {
+    width: auto;
+    min-width: 0;
+  }
 `;
 // Кнопка создания задачи
 export const NewTaskButton = styled.button`
@@ -46,7 +61,9 @@ export const NewTaskButton = styled.button`
   line-height: 1;
   font-weight: 500;
   margin-right: 20px;
-
+  @media (max-width: 600px) {
+    display: none;
+  }
   & a {
     color: #ffffff;
     text-decoration: none;
@@ -91,10 +108,18 @@ export const UserPopup = styled.div`
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   background: ${({ $isDarkTheme }) =>
     $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255);"};
-  box-shadow: 0px 10px 39px 0px rgba(26, 56, 101, 0.21);
+  box-shadow: 0px 10px 39px 0px rgba(148, 166, 190, 0.4);
   padding: 34px;
   text-align: center;
   z-index: 10;
+  @media (max-width: 600px) {
+    left: 80%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 213px;
+    min-width: 0;
+    padding: 18px 8px;
+  }
 `;
 // Вспомогательные стили для текста в попапе
 export const PopupName = styled.p`
@@ -137,7 +162,9 @@ export const PopupTheme = styled.div`
   line-height: 150%;
   letter-spacing: -1%;
   text-align: center;
-
+  @media (max-width: 600px) {
+    justify-content: space-evenly;
+  }
   & p {
     margin: 0;
   }
@@ -216,4 +243,24 @@ export const Container = styled.div`
   width: 100%;
   margin: 0 auto;
   padding: 0 30px;
+`;
+export const FixedCreateTaskBtn = styled.button`
+  display: none; // по умолчанию скрыто
+
+  @media (max-width: 600px) {
+    display: block;
+    position: fixed;
+    left: 0;
+    bottom: 29px;
+    width: 100vw;
+    height: 48px;
+    z-index: 100;
+    background: #565eef;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 -1px 8px rgba(86, 94, 239, 0.08);
+  }
 `;
