@@ -29,7 +29,7 @@ function ColumnComponent({ title, cards, isDarkTheme }) {
           cards.map((card) => (
             <CardComponent
               key={card._id}
-              theme={card.theme}
+              topic={card.topic}
               title={card.title}
               date={card.date}
               status={card.status}

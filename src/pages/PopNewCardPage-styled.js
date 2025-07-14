@@ -63,19 +63,20 @@ export const Close = styled.a`
 `;
 
 export const Wrap = styled.div`
+  width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
 `;
 
 export const Form = styled.form`
-  max-width: 370px;
   width: 100%;
   display: block;
   margin-bottom: 20px;
 `;
 
 export const FormBlock = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -109,7 +110,6 @@ export const Input = styled.input`
 
 export const TextArea = styled.textarea`
   width: 100%;
-  max-width: 370px;
   margin-top: 14px;
   height: 200px;
   outline: none;
@@ -196,4 +196,16 @@ export const CreateBtn = styled.button`
   &:hover {
     background-color: #33399b;
   }
+`;
+
+export const TopCreate = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+export const MidCreate = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 21px;
 `;

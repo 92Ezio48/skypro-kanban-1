@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import * as S from "./Header-styled";
+import { AuthContext } from "../context/AuthContext";
+import { Outlet } from "react-router-dom";
 
 function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
   const [isUserPopupOpen, setIsUserPopupOpen] = useState(false);
-  const user = {
-    name: "Ivan Ivanov",
-    email: "ivan.ivanov@gmail.com",
-  };
+
+  // Достаем данные пользователя из контекста
+  const { user } = useContext(AuthContext);
 
   return (
     <S.StyledHeader $isDarkTheme={isDarkTheme}>
@@ -33,11 +34,14 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
               $isDarkTheme={isDarkTheme}
               onClick={() => setIsUserPopupOpen((open) => !open)}
             >
-              {user.name}
+              {/* Показываем имя пользователя из контекста */}
+              {user?.name || "Пользователь"}
             </S.UserSpan>
             <S.UserPopup $isDarkTheme={isDarkTheme} open={isUserPopupOpen}>
-              <S.PopupName $isDarkTheme={isDarkTheme}>{user.name}</S.PopupName>
-              <S.PopupMail>{user.email}</S.PopupMail>
+              <S.PopupName $isDarkTheme={isDarkTheme}>
+                {user?.name || "Пользователь"}
+              </S.PopupName>
+              <S.PopupMail>{user?.email || ""}</S.PopupMail>
               <S.PopupTheme $isDarkTheme={isDarkTheme}>
                 <p>Темная тема</p>
                 <S.ToggleSwitchLabel>
@@ -54,7 +58,7 @@ function HeaderComponent({ isDarkTheme, setIsDarkTheme }) {
               <S.PopupLogoutButton
                 type="button"
                 onClick={() => {
-                  navigate("/exit-confirm");
+                  navigate("/exit-confirm"); // переход на модалку выхода
                   setIsUserPopupOpen(false);
                 }}
               >

@@ -10,6 +10,14 @@ export const ColumnWrapper = styled.div`
 export const ColumnTitle = styled.div`
   padding: 0 10px;
   margin: 15px 0;
+  color: rgb(148, 166, 190);
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0%;
+  text-align: left;
+  text-transform: uppercase;
 `;
 
 export const CardsBlock = styled.div`
