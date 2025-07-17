@@ -69,3 +69,18 @@ export const ColumnsWrapper = styled.div`
     gap: 10px;
   }
 `;
+export const NoTasksText = styled.div`
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0px;
+  text-align: left;
+  background: ${({ $isDarkTheme }) =>
+    $isDarkTheme ? "rgb(21, 20, 25)" : "#eaeef6"};
+  padding: 16px 24px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 32px;
+`;

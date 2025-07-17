@@ -106,11 +106,12 @@ export const Input = styled.input`
   line-height: 1;
   letter-spacing: -0.14px;
   margin: 20px 0;
+  color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
   &::placeholder {
     font-weight: 400;
     font-size: 14px;
     line-height: 1px;
-    color: #94a6be;
+    color: ${({ $isDarkTheme }) => ($isDarkTheme ? "#fff" : "#000")};
     letter-spacing: -0.14px;
     color: rgb(148, 166, 190);
     font-family: Roboto;

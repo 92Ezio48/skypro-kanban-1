@@ -1,17 +1,18 @@
 import React, { useContext } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-import HeaderComponent from "../components/Header.jsx";
+import HeaderComponent from "../components/header.jsx";
 import ColumnComponent from "../components/Column";
 import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
 import { TasksContext } from "../context/TasksContext";
 import { AuthContext } from "../context/AuthContext";
 
-// Слева — как сервер, справа — как у тебя на канбане:
+// Новый компонент для надписи
+
 const STATUS_MAP = {
   none: "Без статуса",
   todo: "Нужно сделать",
-  "in progress": "В работе",
+  progress: "В работе",
   testing: "Тестирование",
   done: "Готово",
 };
@@ -29,20 +30,17 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Проверка авторизации
   React.useEffect(() => {
     if (!user || !user.token) {
       navigate("/login");
     }
   }, [user, navigate]);
 
-  // 🎯 Маппим статусы задач
   const mappedTasks = tasks.map((task) => ({
     ...task,
     status: STATUS_MAP[task.status] || "Без статуса",
   }));
 
-  // Фильтруем задачи конкретного пользователя
   const filteredTasks = mappedTasks.filter((task) => task.userId === user.id);
 
   const columns = statuses.map((status) => ({
@@ -50,29 +48,37 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
     cards: filteredTasks.filter((card) => card.status === status),
   }));
 
+  // Проверка отсутствия задач для пользователя
+  const isTasksEmpty = filteredTasks.length === 0;
+
   return (
     <>
       <HeaderComponent
         isDarkTheme={isDarkTheme}
         setIsDarkTheme={setIsDarkTheme}
       />
-      {/* Передаём обновление задач во все модалки */}
       <Outlet context={{ onTasksChanged: fetchTasks }} />
       <S.MainComponent $isDarkTheme={isDarkTheme}>
         <S.Container $isDarkTheme={isDarkTheme}>
           <S.Mainblock $isDarkTheme={isDarkTheme}>
             <MainContent>
               <S.ColumnsWrapper>
-              {error && <div>{error}</div>}
-              {columns.map((col) => (
-                <ColumnComponent
-                  key={col.title}
-                  title={col.title}
-                  cards={col.cards}
-                  isDarkTheme={isDarkTheme}
-                  loading={loading} // 👈 пробрасывай глобальный loading всем колонкам!
-                />
-              ))}
+                {error && <div>{error}</div>}
+                {isTasksEmpty ? (
+                  <S.NoTasksText $isDarkTheme={isDarkTheme}>
+                    Задачи отсутствуют
+                  </S.NoTasksText>
+                ) : (
+                  columns.map((col) => (
+                    <ColumnComponent
+                      key={col.title}
+                      title={col.title}
+                      cards={col.cards}
+                      isDarkTheme={isDarkTheme}
+                      loading={loading}
+                    />
+                  ))
+                )}
               </S.ColumnsWrapper>
             </MainContent>
           </S.Mainblock>

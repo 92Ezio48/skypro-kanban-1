@@ -1,5 +1,6 @@
 import "../GlobalStyles";
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // <--- Вот так нужно!
 import * as S from "./Popbrowse-styled";
 import CalendarComponent from "../components/calendar";
 import * as N from "../pages/PopNewCardPage-styled";
@@ -32,21 +33,35 @@ export default function PopEditComponent({
   const [status, setStatus] = useState(task.status || "none");
   const [date, setDate] = useState(task.date || "");
   const [description, setDescription] = useState(task.description || "");
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setTitle(task.title || "");
     setStatus(task.status || "none");
     setDate(task.date || "");
     setDescription(task.description || "");
+    setError(null); // сброс ошибки
   }, [task]);
+  const navigate = useNavigate();
   function handleSaveClick() {
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !date.trim() ||
+      !status.trim()
+    ) {
+      setError("Заполните все поля");
+      return;
+    }
+    setError(null);
     onSave({
-      ...task, // обязательно передай id!
+      ...task,
       title,
       status,
       description,
       date,
     });
+    navigate("/"); // <-- после этого сразу уйдёт на главную
   }
   function getThemeColor(theme) {
     switch (theme) {
@@ -178,6 +193,12 @@ export default function PopEditComponent({
                 Закрыть
               </S.BrowseButton>
             </S.BtnGroup>
+            {/* Рендерим ошибку при необходимости */}
+            {error && (
+              <div style={{ color: "red", marginTop: 12, fontWeight: 500 }}>
+                {error}
+              </div>
+            )}
           </S.PopBrowseGeneral>
         </S.PopBrowseBlock>
       </S.PopBrowseContainer>

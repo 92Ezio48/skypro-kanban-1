@@ -8,12 +8,10 @@ import { AuthContext } from "../context/AuthContext";
 function PopnewcardComponent({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
-  // Безопасно достаем onTaskCreated (будет undefined, если не передан)
   const outletCtx = useOutletContext() || {};
-  const { onTaskCreated } = outletCtx || {};
+  // Унифицируем название!
+  const { onTasksChanged } = outletCtx || {};
 
-  // Состояния для полей задачи
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [topic, setTopic] = useState("Web Design");
@@ -28,24 +26,36 @@ function PopnewcardComponent({ isDarkTheme, setIsDarkTheme }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // Валидация: все поля должны быть заполнены и не состоять только из пробелов
+    if (!title.trim() || !description.trim() || !topic.trim() || !date.trim()) {
+      setError("Пожалуйста, заполните все поля и выберите дату!");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Получаем токен из контекста
       const token = user?.token;
       if (!token) throw new Error("Нет токена пользователя!");
 
+      // Удаляем все пробелы из названия и описания задачи
+      const cleanTitle = title.replace(/\s/g, "");
+      const cleanDescription = description.replace(/\s/g, "");
+
       await createTask({
         token,
-        title,
+        title: cleanTitle,
         topic,
         status,
-        description,
-        date: date || new Date().toISOString(),
+        description: cleanDescription,
+        date, // только выбранная дата!
       });
 
-      if (onTaskCreated) onTaskCreated();
-      navigate("/"); // возврат на главную
-    } catch (err) {
-      setError("Ошибка создания задачи: " + (err?.message || ""));
+      // 👇 Главное изменение:
+      if (onTasksChanged) await onTasksChanged();
+      navigate("/");
+    } catch {
+      setError("Ошибка создания задачи: заполните все поля!");
     } finally {
       setLoading(false);
     }
@@ -103,8 +113,6 @@ function PopnewcardComponent({ isDarkTheme, setIsDarkTheme }) {
                       />
                     </S.FormBlock>
                   </S.TopCreate>
-
-                  {/* 👍 Календарь */}
                   <CalendarComponent
                     date={date}
                     setDate={setDate}

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { AuthContext } from "../context/AuthContext"; // Импортируй контекст!!
 
 // Проп $isDarkTheme будем пробрасывать из родителя!
 const Overlay = styled.div`
@@ -86,12 +87,20 @@ const Title = styled.div`
 // ! КОМПОНЕНТ получает проп isDarkTheme (без доллара!)
 export default function ExitConfirmModal({ isDarkTheme }) {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext); // Получаем logout!
+
+  // Функция выхода
+  const handleLogout = () => {
+    logout(); // Очищает userInfo и user в стейте
+    navigate("/login");
+  };
+
   return (
     <Overlay $isDarkTheme={isDarkTheme} onClick={() => navigate(-1)}>
       <Modal $isDarkTheme={isDarkTheme} onClick={(e) => e.stopPropagation()}>
         <Title>Выйти из аккаунта?</Title>
         <ButtonBlock>
-          <YesBtn onClick={() => navigate("/login")}>Да, выйти</YesBtn>
+          <YesBtn onClick={handleLogout}>Да, выйти</YesBtn>
           <NoBtn onClick={() => navigate(-1)}>Нет, остаться</NoBtn>
         </ButtonBlock>
       </Modal>
