@@ -26,7 +26,7 @@ export const CardInner = styled.div`
   width: 220px;
   height: 130px;
   background: ${({ $isDarkTheme }) =>
-    $isDarkTheme ? "#222e3a" : "rgb(255, 255, 255)"};
+    $isDarkTheme ? "rgb(32, 32, 44);" : "rgb(255, 255, 255)"};
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,6 @@ export const CardGroup = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
 `;
 
 // 4. Тематика с пропами

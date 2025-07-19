@@ -1,19 +1,17 @@
 import React, { useState, useContext } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import CalendarComponent from "../components/Calendar";
+import CalendarComponent from "../components/calendar";
 import { createTask } from "../services/api";
 import * as S from "./PopNewCardPage-styled";
 import { AuthContext } from "../context/AuthContext";
 
-function PopnewcardComponent() {
+function PopnewcardComponent({ isDarkTheme, setIsDarkTheme }) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-
-  // Безопасно достаем onTaskCreated (будет undefined, если не передан)
   const outletCtx = useOutletContext() || {};
-  const { onTaskCreated } = outletCtx || {};
+  // Унифицируем название!
+  const { onTasksChanged } = outletCtx || {};
 
-  // Состояния для полей задачи
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [topic, setTopic] = useState("Web Design");
@@ -28,24 +26,36 @@ function PopnewcardComponent() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // Валидация: все поля должны быть заполнены и не состоять только из пробелов
+    if (!title.trim() || !description.trim() || !topic.trim() || !date.trim()) {
+      setError("Пожалуйста, заполните все поля и выберите дату!");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Получаем токен из контекста
       const token = user?.token;
       if (!token) throw new Error("Нет токена пользователя!");
 
+      // Удаляем все пробелы из названия и описания задачи
+      const cleanTitle = title.replace(/\s/g, "");
+      const cleanDescription = description.replace(/\s/g, "");
+
       await createTask({
         token,
-        title,
+        title: cleanTitle,
         topic,
         status,
-        description,
-        date: date || new Date().toISOString(),
+        description: cleanDescription,
+        date, // только выбранная дата!
       });
 
-      if (onTaskCreated) onTaskCreated();
-      navigate("/"); // возврат на главную
-    } catch (err) {
-      setError("Ошибка создания задачи: " + (err?.message || ""));
+      // 👇 Главное изменение:
+      if (onTasksChanged) await onTasksChanged();
+      navigate("/");
+    } catch {
+      setError("Ошибка создания задачи: заполните все поля!");
     } finally {
       setLoading(false);
     }
@@ -54,9 +64,9 @@ function PopnewcardComponent() {
   return (
     <S.Overlay>
       <S.Container>
-        <S.Block>
+        <S.Block $isDarkTheme={isDarkTheme} setIsDarkTheme={setIsDarkTheme}>
           <S.Content>
-            <S.Title>Создание задачи</S.Title>
+            <S.Title $isDarkTheme={isDarkTheme}>Создание задачи</S.Title>
             <S.Close
               href="#"
               onClick={(e) => {
@@ -71,7 +81,9 @@ function PopnewcardComponent() {
                 <S.MidCreate>
                   <S.TopCreate>
                     <S.FormBlock>
-                      <S.Subttl htmlFor="formTitle">Название задачи</S.Subttl>
+                      <S.Subttl $isDarkTheme={isDarkTheme} htmlFor="formTitle">
+                        Название задачи
+                      </S.Subttl>
                       <S.Input
                         type="text"
                         name="name"
@@ -79,12 +91,16 @@ function PopnewcardComponent() {
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         placeholder="Введите название задачи..."
-                        autoFocus
                         required
+                        $isDarkTheme={isDarkTheme}
                       />
                     </S.FormBlock>
                     <S.FormBlock>
-                      <S.Subttl as="label" htmlFor="textArea">
+                      <S.Subttl
+                        $isDarkTheme={isDarkTheme}
+                        as="label"
+                        htmlFor="textArea"
+                      >
                         Описание задачи
                       </S.Subttl>
                       <S.TextArea
@@ -93,36 +109,49 @@ function PopnewcardComponent() {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                         placeholder="Введите описание задачи..."
+                        $isDarkTheme={isDarkTheme}
                       />
                     </S.FormBlock>
                   </S.TopCreate>
-
-                  {/* 👍 Календарь */}
-                  <CalendarComponent date={date} setDate={setDate} />
+                  <CalendarComponent
+                    date={date}
+                    setDate={setDate}
+                    isDarkTheme={isDarkTheme}
+                    setIsDarkTheme={setIsDarkTheme}
+                  />
                 </S.MidCreate>
                 <S.Categories>
-                  <S.CategoriesTitle>Категория</S.CategoriesTitle>
+                  <S.CategoriesTitle $isDarkTheme={isDarkTheme}>
+                    Категория
+                  </S.CategoriesTitle>
                   <S.CategoryThemes>
                     <S.CategoryTheme
                       color="orange"
                       $active={topic === "Web Design"}
                       onClick={() => handleCategoryClick("Web Design")}
+                      $isDarkTheme={isDarkTheme}
                     >
-                      <S.CategoryText color="orange">Web Design</S.CategoryText>
+                      <S.CategoryText $isDarkTheme={isDarkTheme} color="orange">
+                        Web Design
+                      </S.CategoryText>
                     </S.CategoryTheme>
                     <S.CategoryTheme
                       color="green"
                       $active={topic === "Research"}
                       onClick={() => handleCategoryClick("Research")}
+                      $isDarkTheme={isDarkTheme}
                     >
-                      <S.CategoryText color="green">Research</S.CategoryText>
+                      <S.CategoryText $isDarkTheme={isDarkTheme} color="green">
+                        Research
+                      </S.CategoryText>
                     </S.CategoryTheme>
                     <S.CategoryTheme
                       color="purple"
                       $active={topic === "Copywriting"}
                       onClick={() => handleCategoryClick("Copywriting")}
+                      $isDarkTheme={isDarkTheme}
                     >
-                      <S.CategoryText color="purple">
+                      <S.CategoryText $isDarkTheme={isDarkTheme} color="purple">
                         Copywriting
                       </S.CategoryText>
                     </S.CategoryTheme>

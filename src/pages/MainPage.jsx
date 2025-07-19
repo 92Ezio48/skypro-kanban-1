@@ -1,11 +1,21 @@
 import React, { useContext } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-import HeaderComponent from "../components/Header.jsx";
+import HeaderComponent from "../components/header.jsx";
 import ColumnComponent from "../components/Column";
 import * as S from "../styled-components.js";
 import { MainContent } from "../GlobalStyles.js";
 import { TasksContext } from "../context/TasksContext";
 import { AuthContext } from "../context/AuthContext";
+
+// Новый компонент для надписи
+
+const STATUS_MAP = {
+  none: "Без статуса",
+  todo: "Нужно сделать",
+  progress: "В работе",
+  testing: "Тестирование",
+  done: "Готово",
+};
 
 const statuses = [
   "Без статуса",
@@ -16,25 +26,30 @@ const statuses = [
 ];
 
 function MainPage({ isDarkTheme, setIsDarkTheme }) {
-  // Теперь достаём fetchTasks из TasksContext!
   const { tasks, loading, error, fetchTasks } = useContext(TasksContext);
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Проверка авторизации
   React.useEffect(() => {
     if (!user || !user.token) {
       navigate("/login");
     }
   }, [user, navigate]);
 
-  // Фильтруем задачи конкретного пользователя
-  const filteredTasks = tasks.filter((task) => task.userId === user.id);
+  const mappedTasks = tasks.map((task) => ({
+    ...task,
+    status: STATUS_MAP[task.status] || "Без статуса",
+  }));
+
+  const filteredTasks = mappedTasks.filter((task) => task.userId === user.id);
 
   const columns = statuses.map((status) => ({
     title: status,
     cards: filteredTasks.filter((card) => card.status === status),
   }));
+
+  // Проверка отсутствия задач для пользователя
+  const isTasksEmpty = filteredTasks.length === 0;
 
   return (
     <>
@@ -42,26 +57,29 @@ function MainPage({ isDarkTheme, setIsDarkTheme }) {
         isDarkTheme={isDarkTheme}
         setIsDarkTheme={setIsDarkTheme}
       />
-
-      {/* 👉🏻 Прокидываем fetchTasks в Outlet через context, чтобы PopnewcardComponent мог вызвать его */}
-      <Outlet context={{ onTaskCreated: fetchTasks }} />
-
+      <Outlet context={{ onTasksChanged: fetchTasks }} />
       <S.MainComponent $isDarkTheme={isDarkTheme}>
         <S.Container $isDarkTheme={isDarkTheme}>
           <S.Mainblock $isDarkTheme={isDarkTheme}>
             <MainContent>
-              {loading && <div>Загрузка задач...</div>}
-              {error && <div>{error}</div>}
-              {!loading &&
-                !error &&
-                columns.map((col) => (
-                  <ColumnComponent
-                    key={col.title}
-                    title={col.title}
-                    cards={col.cards}
-                    isDarkTheme={isDarkTheme}
-                  />
-                ))}
+              <S.ColumnsWrapper>
+                {error && <div>{error}</div>}
+                {isTasksEmpty ? (
+                  <S.NoTasksText $isDarkTheme={isDarkTheme}>
+                    Задачи отсутствуют
+                  </S.NoTasksText>
+                ) : (
+                  columns.map((col) => (
+                    <ColumnComponent
+                      key={col.title}
+                      title={col.title}
+                      cards={col.cards}
+                      isDarkTheme={isDarkTheme}
+                      loading={loading}
+                    />
+                  ))
+                )}
+              </S.ColumnsWrapper>
             </MainContent>
           </S.Mainblock>
         </S.Container>

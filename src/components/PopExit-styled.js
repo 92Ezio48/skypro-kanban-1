@@ -49,7 +49,7 @@ export const Title = styled.div`
   }
 `;
 
-export const BtnGroup = styled.div`
+export const BtnGroupEx = styled.div`
   width: 100%;
   display: flex;
   align-items: center;

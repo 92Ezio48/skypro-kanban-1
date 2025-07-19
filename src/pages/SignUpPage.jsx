@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as S from "./SignInPage-styled";
 import { registerUser } from "../services/api";
 
-const SignUpPage = () => {
+const SignUpPage = ({ isDarkTheme, setIsDarkTheme }) => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [login, setLogin] = useState("");
@@ -69,9 +69,9 @@ const SignUpPage = () => {
   }
 
   return (
-    <S.LoginWrapper>
-      <S.LoginContainer>
-        <S.LoginTitle>Регистрация</S.LoginTitle>
+    <S.LoginWrapper $isDarkTheme={isDarkTheme} $setIsDarkTheme={setIsDarkTheme}>
+      <S.LoginContainer $isDarkTheme={isDarkTheme}>
+        <S.LoginTitle $isDarkTheme={isDarkTheme}>Регистрация</S.LoginTitle>
 
         <S.LoginForm onSubmit={handleRegister} autoComplete="off">
           <S.LoginInput
@@ -81,6 +81,7 @@ const SignUpPage = () => {
             value={name}
             onChange={handleChange(setName)}
             autoComplete="off"
+            $isDarkTheme={isDarkTheme}
           />
           <S.LoginInput
             $hasError={(wasSubmitted && loginError) || loginExistsError}
@@ -89,6 +90,7 @@ const SignUpPage = () => {
             autoComplete="username"
             value={login}
             onChange={handleChange(setLogin, true)}
+            $isDarkTheme={isDarkTheme}
           />
           <S.LoginInput
             $hasError={wasSubmitted && passwordError}
@@ -97,9 +99,10 @@ const SignUpPage = () => {
             autoComplete="new-password"
             value={password}
             onChange={handleChange(setPassword)}
+            $isDarkTheme={isDarkTheme}
           />
           {globalError && <S.ErrorText>{globalError}</S.ErrorText>}
-          <S.LoginButton type="submit" disabled={!isFormValid && !wasSubmitted}>
+          <S.LoginButton type="submit" disabled={!isFormValid}>
             Зарегистрироваться
           </S.LoginButton>
         </S.LoginForm>

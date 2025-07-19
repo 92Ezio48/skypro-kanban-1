@@ -1,71 +1,147 @@
+import React, { useMemo } from "react";
 import * as S from "./Calendar-styled";
+import dayjs from "dayjs";
+import "dayjs/locale/ru";
 
-function CalendarComponent() {
+const ArrowRight = ({ style, ...props }) => (
+  <svg
+    width="10"
+    height="6"
+    viewBox="0 0 10 6"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={{ ...style, display: "block" }}
+    {...props}
+  >
+    <path
+      d="M1 1L5 5L9 1"
+      stroke="#94A6BE"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+function CalendarComponent({ date, setDate, isDarkTheme, setIsDarkTheme }) {
+  const [month, setMonth] = React.useState(
+    dayjs(date || new Date()).startOf("month")
+  );
+
+  const handleMonthChange = (dir) => {
+    setMonth(month.add(dir, "month"));
+  };
+
+  const weekDays = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
+
+  // ---------- FIX: только 35 ячеек! ----------
+  const calendarMatrix = useMemo(() => {
+    let startOfMonth = month.startOf("month");
+    let endOfMonth = month.endOf("month");
+
+    let startDay = startOfMonth.day();
+    let calendarStart = startOfMonth.subtract(
+      startDay === 0 ? 6 : startDay - 1,
+      "day"
+    );
+
+    let endDay = endOfMonth.day();
+    let calendarEnd = endOfMonth.add(endDay === 0 ? 0 : 7 - endDay, "day");
+
+    let days = [];
+    let current = calendarStart;
+    while (
+      current.isBefore(calendarEnd, "day") ||
+      current.isSame(calendarEnd, "day")
+    ) {
+      days.push(current);
+      current = current.add(1, "day");
+    }
+    return days;
+  }, [month]);
+  // ------------------------------------------
+
+  const today = dayjs().format("YYYY-MM-DD");
+  const selected = date ? dayjs(date).format("YYYY-MM-DD") : null;
+
   return (
-    <S.CalendarWrapper>
-      <S.CalendarTitle>Даты</S.CalendarTitle>
+    <S.CalendarWrapper
+      $isDarkTheme={isDarkTheme}
+      $setIsDarkTheme={setIsDarkTheme}
+    >
+      <S.CalendarTitle $isDarkTheme={isDarkTheme}>Даты</S.CalendarTitle>
       <S.CalendarBlock>
         <S.CalendarNav>
-          <S.CalendarMonth>Сентябрь 2023</S.CalendarMonth>
+          <S.CalendarMonth>
+            {month
+              .locale("ru")
+              .format("MMMM YYYY")
+              .replace(/^./, (str) => str.toUpperCase())}
+          </S.CalendarMonth>
           <S.NavActions>
-            <S.NavAction data-action="prev">{/* svg ... */}</S.NavAction>
-            <S.NavAction data-action="next">{/* svg ... */}</S.NavAction>
+            <S.NavAction
+              as="button"
+              type="button"
+              data-action="prev"
+              onClick={() => handleMonthChange(-1)}
+            >
+              <ArrowRight style={{ transform: "rotate(90deg)" }} />
+            </S.NavAction>
+            <S.NavAction
+              as="button"
+              type="button"
+              data-action="next"
+              onClick={() => handleMonthChange(1)}
+            >
+              <ArrowRight style={{ transform: "rotate(-90deg)" }} />
+            </S.NavAction>
           </S.NavActions>
         </S.CalendarNav>
         <S.CalendarContent>
           <S.CalendarDaysNames>
-            <S.CalendarDayName>пн</S.CalendarDayName>
-            <S.CalendarDayName>вт</S.CalendarDayName>
-            <S.CalendarDayName>ср</S.CalendarDayName>
-            <S.CalendarDayName>чт</S.CalendarDayName>
-            <S.CalendarDayName>пт</S.CalendarDayName>
-            <S.CalendarDayName $weekend>сб</S.CalendarDayName>
-            <S.CalendarDayName $weekend>вс</S.CalendarDayName>
+            {weekDays.map((d, idx) => (
+              <S.CalendarDayName key={d} $weekend={idx >= 5}>
+                {d}
+              </S.CalendarDayName>
+            ))}
           </S.CalendarDaysNames>
           <S.CalendarCells>
-            <S.CalendarCell $otherMonth>28</S.CalendarCell>
-            <S.CalendarCell $otherMonth>29</S.CalendarCell>
-            <S.CalendarCell $otherMonth>30</S.CalendarCell>
-            <S.CalendarCell>31</S.CalendarCell>
-            <S.CalendarCell $current>1</S.CalendarCell>
-            <S.CalendarCell $weekend>2</S.CalendarCell>
-            <S.CalendarCell $weekend>3</S.CalendarCell>
-            <S.CalendarCell $current>4</S.CalendarCell>
-            <S.CalendarCell $current>5</S.CalendarCell>
-            <S.CalendarCell $current>6</S.CalendarCell>
-            <S.CalendarCell $current>7</S.CalendarCell>
-            <S.CalendarCell $current>8</S.CalendarCell>
-            <S.CalendarCell $weekend>9</S.CalendarCell>
-            <S.CalendarCell $weekend>10</S.CalendarCell>
-            <S.CalendarCell $current>11</S.CalendarCell>
-            <S.CalendarCell $current>12</S.CalendarCell>
-            <S.CalendarCell $current>13</S.CalendarCell>
-            <S.CalendarCell $current>14</S.CalendarCell>
-            <S.CalendarCell $current>15</S.CalendarCell>
-            <S.CalendarCell $weekend>16</S.CalendarCell>
-            <S.CalendarCell $weekend>17</S.CalendarCell>
-            <S.CalendarCell $current>18</S.CalendarCell>
-            <S.CalendarCell $current>19</S.CalendarCell>
-            <S.CalendarCell $current>20</S.CalendarCell>
-            <S.CalendarCell $current>21</S.CalendarCell>
-            <S.CalendarCell $current>22</S.CalendarCell>
-            <S.CalendarCell $weekend>23</S.CalendarCell>
-            <S.CalendarCell $weekend>24</S.CalendarCell>
-            <S.CalendarCell $current>25</S.CalendarCell>
-            <S.CalendarCell $current>26</S.CalendarCell>
-            <S.CalendarCell $current>27</S.CalendarCell>
-            <S.CalendarCell $current>28</S.CalendarCell>
-            <S.CalendarCell $current>29</S.CalendarCell>
-            <S.CalendarCell $weekend>30</S.CalendarCell>
-            <S.CalendarCell $otherMonth $weekend>
-              1
-            </S.CalendarCell>
+            {calendarMatrix.map((cellDate, idx) => {
+              const cellDateStr = cellDate.format("YYYY-MM-DD");
+              const isOtherMonth = cellDate.month() !== month.month();
+              const isToday = cellDateStr === today;
+              const isSelected = cellDateStr === selected;
+              const isWeekend = cellDate.day() === 0 || cellDate.day() === 6;
+
+              return (
+                <S.CalendarCell
+                  key={idx}
+                  $otherMonth={isOtherMonth}
+                  $today={isToday}
+                  $selected={isSelected}
+                  $weekend={isWeekend && !isOtherMonth}
+                  onClick={() =>
+                    !isOtherMonth && setDate(cellDate.toISOString())
+                  }
+                >
+                  {cellDate.date()}
+                </S.CalendarCell>
+              );
+            })}
           </S.CalendarCells>
         </S.CalendarContent>
-        <S.HiddenInput type="hidden" id="datepick_value" value="08.09.2023" />
+        <S.HiddenInput
+          type="hidden"
+          id="datepick_value"
+          value={date ? dayjs(date).format("DD.MM.YYYY") : ""}
+        />
         <S.CalendarPeriod>
           <S.CalendarParagraph>
-            Выберите срок исполнения <S.DateControl>08.09.2023</S.DateControl>.
+            Срок исполнения:{" "}
+            <S.DateControl $isDarkTheme={isDarkTheme}>
+              {date ? dayjs(date).format("DD.MM.YY") : "не выбран"}
+            </S.DateControl>
+            .
           </S.CalendarParagraph>
         </S.CalendarPeriod>
       </S.CalendarBlock>
